@@ -6,7 +6,6 @@ import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import SingupPage from './pages/SingupPage'
 import ProfilePage from './pages/ProfilePage'
-import ExpertPage from './pages/ExpertPage'
 import Header from './components/Header'
 
 function App() {
@@ -16,11 +15,10 @@ function App() {
         <AuthProvider>
           <Header/>
           <Routes>
-            <Route element = <HomePage/> path="/" exact/>
-            <Route element = <LoginPage/> path="/login"/>
-            <Route element = <SingupPage/> path="/singup"/>
-            <Route element = <ProfilePage/> path="/profile"/>
-            <Route element = <ExpertPage/> path="/expert"/>
+            <Route element = {<HomePage/>} path="/" exact/>
+            <Route element = {<LoginPage/>} path="/login"/>
+            <Route element = {<SingupPage/>} path="/singup"/>
+            <Route element = {<ProfilePage/>} path="/profile"/>
           </Routes>
         </AuthProvider>
       </Router>

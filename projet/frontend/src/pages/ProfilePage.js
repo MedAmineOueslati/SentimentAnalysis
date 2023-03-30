@@ -10,12 +10,6 @@ const ProfilePage = () => {
         <p>Prenom {user.last_name}</p>
         <p>Email {user.email}</p>
         <p>DateDeNaissance {user.DateDeNaissance}</p>
-        {user.is_expert ? (<p>Expert</p>):
-            (<>
-            <p>Citoyen</p>
-            <Link to="/expert" >Wanna be an expert</Link>
-            </>)
-        }
     </div>
   )
 }

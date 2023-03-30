@@ -24,7 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
         token['DateDeNaissance'] = user.DateDeNaissance.strftime("%Y-%m-%d")
-        token['is_expert'] = user.is_expert
+
         # ...
 
         return token
