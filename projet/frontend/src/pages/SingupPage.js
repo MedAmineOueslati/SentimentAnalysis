@@ -4,9 +4,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -59,15 +56,16 @@ const SingupPage = () => {
                 />
               </Grid>
               <Grid item xs={12} >
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
+              <TextField
                   required
                   fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  type = 'date'
                   id="DateDeNaissance"
                   label="Date De Naissance"
                   name="DateDeNaissance"
-                  autoComplete="family-name" />
-              </LocalizationProvider>
+                  autoComplete="family-name"
+                />
               </Grid>
               <Grid item xs={12}>
                 <TextField

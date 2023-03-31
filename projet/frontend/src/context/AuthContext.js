@@ -34,8 +34,9 @@ export const AuthProvider = ({children}) => {
 
     let singup = async (e )=> {
         e.preventDefault()
-        if(e.target.password.value != e.target.Conf_password.value ){
-            alert('Mot de passe de confirmation incorrecte!')
+        console.log(e.target)
+        if(e.target.password.value !== e.target.Conf_password.value ){
+            alert('Mot de passe de confirmation incorrecte!!!')
         }
         else{
         let response = await fetch('http://127.0.0.1:8000/api/signup/', {
