@@ -1,6 +1,7 @@
-import { createContext, useState, useEffect } from 'react'
+import React from 'react';
+import { createContext, useState, useEffect } from 'react';
 import jwt_decode from "jwt-decode";
-import { useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom';
 
 const AuthContext = createContext()
 
@@ -75,7 +76,7 @@ export const AuthProvider = ({children}) => {
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({'refresh':authTokens?.refresh})
+            body:JSON.stringify({'refresh':authTokens && authTokens.refresh})
         })
 
         let data = await response.json()
