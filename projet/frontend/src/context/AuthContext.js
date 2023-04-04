@@ -44,8 +44,9 @@ export const AuthProvider = ({children}) => {
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({'email':e.target.email.value, 'password':e.target.password.value, 'first_name':e.target.first_name.value ,'last_name':e.target.last_name.value,
-            'DateDeNaissance':e.target.DateDeNaissance.value})
+            body:JSON.stringify({'email':e.target.email.value, 'password':e.target.password.value, 
+            'first_name':e.target.first_name.value ,'last_name':e.target.last_name.value, 
+            'Sexe':e.target.Sexe.value, 'DateDeNaissance':e.target.DateDeNaissance.value})
         })
 
 

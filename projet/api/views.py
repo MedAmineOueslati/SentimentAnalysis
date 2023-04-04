@@ -28,10 +28,11 @@ def Signup(request):
         first_name = form.cleaned_data.get('first_name')
         last_name = form.cleaned_data.get('last_name')
         email = form.cleaned_data.get('email')
+        Sexe = form.cleaned_data.get('Sexe')
         password = form.cleaned_data.get('password')
         DateDeNaissance = form.cleaned_data.get('DateDeNaissance')
         user = UserAccount.objects.create_user(first_name=first_name, last_name=last_name,
-                                               email=email, password=password, DateDeNaissance=DateDeNaissance)
+                                               email=email, password=password, DateDeNaissance=DateDeNaissance, Sexe=Sexe)
         return Response(UserAccountSerializer(user).data, status=status.HTTP_201_CREATED)
     else:
         return Response(status=status.HTTP_406_NOT_ACCEPTABLE)

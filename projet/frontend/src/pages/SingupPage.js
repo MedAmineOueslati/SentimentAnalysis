@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import MenuItem from "@mui/material/MenuItem" ;
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
@@ -55,7 +56,7 @@ const SingupPage = () => {
                   autoComplete="family-name"
                 />
               </Grid>
-              <Grid item xs={12} >
+              <Grid item xs={12} sm={6} >
               <TextField
                   required
                   fullWidth
@@ -66,6 +67,22 @@ const SingupPage = () => {
                   name="DateDeNaissance"
                   autoComplete="family-name"
                 />
+              </Grid>
+              <Grid item xs={12} sm={6} mt={-2} >
+              <TextField
+                select
+                id="Sexe"
+                name="Sexe"
+                margin="normal"
+                label="Sexe"
+                required
+                fullWidth
+                autoComplete="family-name"
+                sx={{width: "100%"}}
+              >
+                <MenuItem value="Homme">Homme</MenuItem>
+                <MenuItem value="Femme">Femme</MenuItem>
+              </TextField>
               </Grid>
               <Grid item xs={12}>
                 <TextField
