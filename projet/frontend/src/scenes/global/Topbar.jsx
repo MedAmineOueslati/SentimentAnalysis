@@ -1,4 +1,5 @@
 import { Box, IconButton, useTheme } from "@mui/material";
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import InputBase from "@mui/material/InputBase";
@@ -11,8 +12,10 @@ import SearchIcon from "@mui/icons-material/Search";
 
 const Topbar = () => {
   const theme = useTheme();
+  
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  
 
   return (
     <Box display="flex" justifyContent="space-between" p={2}>
@@ -43,7 +46,7 @@ const Topbar = () => {
         <IconButton>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton>
+        <IconButton  component={Link} to="/profil" >
           <PersonOutlinedIcon />
         </IconButton>
       </Box>

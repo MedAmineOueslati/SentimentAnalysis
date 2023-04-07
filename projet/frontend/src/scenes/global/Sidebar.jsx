@@ -16,7 +16,8 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-
+import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -70,6 +71,7 @@ const Sidebar = () => {
             style={{
               margin: "10px 0 20px 0",
               color: colors.grey[100],
+            
             }}
           >
             {!isCollapsed && (
@@ -77,7 +79,7 @@ const Sidebar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="15px"
+                ml="10%"
               >
                 
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -89,7 +91,7 @@ const Sidebar = () => {
 
           
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box     paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
               to="/"
@@ -107,7 +109,7 @@ const Sidebar = () => {
             </Typography>
             
             <Item
-              title="Contacts Information"
+              title="Contacts "
               to="/contacts"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
@@ -176,6 +178,15 @@ const Sidebar = () => {
               title="Geography Chart"
               to="/geography"
               icon={<MapOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+          <Box sx={{ m: "40px 0 5px 30px" }}>
+          <Item
+              title="LogIn"
+              to="/login"
+              icon={<LoginOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
