@@ -33,7 +33,10 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework',
 ]
-
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 25
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
