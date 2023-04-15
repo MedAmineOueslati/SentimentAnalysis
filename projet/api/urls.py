@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views
 from .views import Login, Signup, articleViewSet, commentViewSet, expertcommentViewSet, getArticles, getComments, getExpertComments, getExpertFullName, getPosts, getUserFullName, postViewSet
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('', views.getRoutes),
@@ -22,3 +23,4 @@ urlpatterns = [
     path('ExpertFullName/', getExpertFullName, name='ExpertFullName'),
 
 ]
+urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

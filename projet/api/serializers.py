@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Expert, UserAccount, Post
+from .models import Article, Expert, UserAccount, Post
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -24,7 +24,7 @@ class PostPageSerializer(serializers.Serializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post
+        model = Article
         fields = ("proprietaire", "title", "im", "b",)
 
 
