@@ -1,5 +1,6 @@
-import { useState,useRef,useEffect } from 'react';
+import { useState,useRef,useEffect,useContext } from 'react';
 import './Share.css';
+import AuthContext from '../context/AuthContext'
 import  img from'./user.png';
 import ImageIcon from '@mui/icons-material/Image';
 import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
@@ -14,6 +15,10 @@ function Share(props) {
     const [image,setimage]=useState(null);
     const [im,setim]=useState('');
     const [vd,setvd]=useState('');
+    const [hasmore,sethasmore]=useState(true);
+    const [next,setnext]=useState('http://127.0.0.1:8000/api/posts/');
+    const [posts,setposts]=useState([])
+    let {user} = useContext(AuthContext)
    
     const [video,setvideo]=useState(null);
     const [inputstr,setinputstr]=useState('');
@@ -45,15 +50,16 @@ function Share(props) {
 
     function addpost() {
       let data = new FormData();
+      data.append("proprietaire",user.id)
       data.append("description", inputstr);
       data.append("im", im);
       data.append("vd", vd);
       axios
-        .post(`http://127.0.0.1:8000/posts/`, data, {
+        .post(`http://127.0.0.1:8000/api/posts/`, data, {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
         .then(resp => {
-          console.log(resp);
+          console.log(resp.proprietaire);
           setinputstr('');
           getdata();
     
@@ -69,15 +75,29 @@ function Share(props) {
     
     
 
-    function getdata()
+  /*  function getdata()
   {
-   fetch( 'http://127.0.0.1:8000/posts/',{
+   fetch( 'http://127.0.0.1:8000/api/posts/',{
        'method':'GET',
        headers:{'Content-Type': 'application/json'}
      })
      .then(resp=>resp.json())
      .then(resp=>props.updatepost(resp))
      .catch(error=>console.log(error))
+  }*/
+  function getdata()
+  {
+   fetch( next,{
+       'method':'GET',
+       headers:{'Content-Type': 'application/json'}
+     })
+     .then(resp=>resp.json())
+     .then(resp=>{setposts(prevPosts => [...prevPosts, ...resp.results])
+     setnext(resp.next)
+     sethasmore(!!resp.next)
+   console.log(next);})
+     .catch(error=>console.log("ddd"))
+     
   }
 
    useEffect(()=>

@@ -5,6 +5,7 @@ import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ClearIcon from '@mui/icons-material/Clear';
 import InfiniteScroll from "react-infinite-scroll-component"
+import axios from 'axios'
 
 
 function Posts() {
@@ -16,9 +17,8 @@ function Posts() {
   
 
   function deletepost(post) {
-    fetch(`http://127.0.0.1:8000/posts/${post.id}`, {
-      method: 'DELETE'
-    }).then(() => {
+    axios.delete(`http://127.0.0.1:8000/api/posts/${post.id}/`)
+    .then(() => {
       const updatedPosts = posts.filter(p => p.id !== post.id);
      
       setposts(updatedPosts);
@@ -48,7 +48,10 @@ function Posts() {
      
   }
 
-  
+  useEffect(()=>
+   {
+     getdata()
+   },[])
 
   return (
 

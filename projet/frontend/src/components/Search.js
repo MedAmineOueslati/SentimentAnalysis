@@ -29,7 +29,7 @@ function Search() {
     function updatearticle(item)
   { let data={title,description}
    
-    fetch( `http://127.0.0.1:8000/articles/${item.id}/`,{
+    fetch( `http://127.0.0.1:8000/api/articles/${item.id}/`,{
         'method':'PUT',
         headers:{'Accept':'application/json','Content-Type': 'application/json'},
         body:JSON.stringify(data)})
@@ -49,7 +49,7 @@ function Search() {
       b: updatedB
     };
      
-    fetch(`http://127.0.0.1:8000/articles/${item.id}/`, {
+    fetch(`http://127.0.0.1:8000/api/articles/${item.id}/`, {
       method: 'PUT',
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -67,7 +67,7 @@ function Search() {
   
   
   function deletearticle(item) {
-    fetch(`http://127.0.0.1:8000/articles/${item.id}`, {
+    fetch(`http://127.0.0.1:8000/api/articles/${item.id}/`, {
       method: 'DELETE'
     }).then((result) => {
       result.json().then((resp) => {
@@ -83,7 +83,7 @@ function Search() {
       data.append("description",description)
       data.append("im",im)
 
-      axios.post(`http://127.0.0.1:8000/articles/`,data,
+      axios.post(`http://127.0.0.1:8000/api/articles/`,data,
       { headers:{ 'Content-Type': 'multpart/form-data'}}
       ).then(resp=>{console.log(resp) 
         }).catch(err=>console.log(err))

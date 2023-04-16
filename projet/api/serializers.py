@@ -1,61 +1,33 @@
 from rest_framework import serializers
-from .models import Article, Expert, UserAccount, Post
+from .models import Article, Comment, Expert, ExpertComment, UserAccount, Post
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
         fields = ('first_name', 'last_name', 'email',
-                  'DateDeNaissance', 'Sexe')
+                  'DateDeNaissance', 'Sexe', "id",)
 
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ("proprietaire", "description", "im", "vd", "nb")
-
-
-class PostPageSerializer(serializers.Serializer):
-    products = PostSerializer(many=True, read_only=True)
-
-    class Meta:
-        fields = ('products',)
+        fields = ("proprietaire", "description", "im", "vd", "nb", "id")
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ("proprietaire", "title", "im", "b",)
-
-
-class ArticlePageSerializer(serializers.Serializer):
-    products = ArticleSerializer(many=True, read_only=True)
-
-    class Meta:
-        fields = ('products',)
+        fields = ("proprietaire", "title", "im", "b", "id",)
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post
+        model = Comment
         fields = ("idPost", "idUser", "description",)
-
-
-class CommentPageSerializer(serializers.Serializer):
-    products = CommentSerializer(many=True, read_only=True)
-
-    class Meta:
-        fields = ('products',)
 
 
 class ExpertCommentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Expert
+        model = ExpertComment
         fields = ("idPost", "idExpert", "description",)
-
-
-class ExpertCommentPageSerializer(serializers.Serializer):
-    products = ExpertCommentSerializer(many=True, read_only=True)
-
-    class Meta:
-        fields = ('products',)
