@@ -54,12 +54,6 @@ function Share(props) {
       data.append("description", inputstr);
       data.append("im", im);
       data.append("vd", vd);
-      const Data = {
-        proprietaire : user.id,
-        description : inputstr,
-        im : im ,
-        vd : vd
-      }
       axios
         .post(`http://127.0.0.1:8000/api/posts/`, data, {
           headers: { 'Content-Type': 'multipart/form-data' }
