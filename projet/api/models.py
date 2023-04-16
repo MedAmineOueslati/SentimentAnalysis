@@ -85,6 +85,7 @@ class Post (models.Model):
     im = models.FileField(null=True, blank=True, upload_to='public')
     vd = models.FileField(null=True, blank=True, upload_to='public')
     nb = models.IntegerField(default=0)
+   # b = models.BooleanField(default=False)
 
 
 class Comment (models.Model):

@@ -8,7 +8,7 @@ from django.core import serializers
 from rest_framework import viewsets
 
 
-from .serializers import ArticlePageSerializer, ArticleSerializer, CommentPageSerializer, CommentSerializer, ExpertCommentPageSerializer, ExpertCommentSerializer, PostPageSerializer, PostSerializer, UserAccountSerializer
+from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer, PostSerializer, UserAccountSerializer
 
 from .forms import SignupForm
 
@@ -57,53 +57,6 @@ def Login(request):
             return Response(UserAccountSerializer(user).data, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-def getPosts(request):
-    Posts = Post.objects.all()
-    paginator = Paginator(Posts, 25)  # Show 25 contacts per page.
-
-    page_number = request.data.get('page')
-    page_obj = paginator.get_page(page_number)
-    serializer = PostPageSerializer(instance={'products': page_obj})
-    return Response(serializer.data["products"])
-
-
-@api_view(['GET'])
-def getArticles(request):
-    Articles = Article.objects.all()
-    paginator = Paginator(Articles, 25)  # Show 25 contacts per page.
-
-    page_number = request.data.get('page')
-    page_obj = paginator.get_page(page_number)
-    serializer = ArticlePageSerializer(
-        instance={'products': page_obj})
-    return Response(serializer.data["products"])
-
-
-@api_view(['GET'])
-def getComments(request):
-    Comments = Comment.objects.all()
-    paginator = Paginator(Comments, 25)  # Show 25 contacts per page.
-
-    page_number = request.data.get('page')
-    page_obj = paginator.get_page(page_number)
-    serializer = CommentPageSerializer(
-        instance={'products': page_obj})
-    return Response(serializer.data["products"])
-
-
-@api_view(['GET'])
-def getExpertComments(request):
-    Comments = ExpertComment.objects.all()
-    paginator = Paginator(Comments, 25)  # Show 25 contacts per page.
-
-    page_number = request.data.get('page')
-    page_obj = paginator.get_page(page_number)
-    serializer = ExpertCommentPageSerializer(
-        instance={'products': page_obj})
-    return Response(serializer.data["products"])
 
 
 @api_view(['GET'])

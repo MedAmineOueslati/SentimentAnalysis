@@ -19,7 +19,7 @@ function Expertformulaire(props) {
       data.append("description",description)
       data.append("im",im)
       console.log(data)
-      axios.post(`http://127.0.0.1:8000/articles/`,data,
+      axios.post(`http://127.0.0.1:8000/api/articles/`,data,
       { headers:{ 'Content-Type': 'multpart/form-data'}}
       ).then(resp=>{console.log(resp) 
         }).catch(err=>console.log(err))
