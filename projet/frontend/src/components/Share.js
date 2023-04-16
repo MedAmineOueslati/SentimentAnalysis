@@ -59,51 +59,21 @@ function Share(props) {
           headers: { 'Content-Type': 'multipart/form-data' }
         })
         .then(resp => {
+          console.log(resp);
           setinputstr('');
-          getdata();
+          setimage(null)
+          setvideo(null)
+          setim('')
+          setvd('')
+          
     
           const newPost = resp.data;
           props.updatepost(posts => [newPost, ...posts]);
         })
         .catch(err => console.log(err));
     }
-    
-    
-    
-    /*kkkkkkkkkkkkkkkkk*/
-    
-    
-
-  /*  function getdata()
-  {
-   fetch( 'http://127.0.0.1:8000/api/posts/',{
-       'method':'GET',
-       headers:{'Content-Type': 'application/json'}
-     })
-     .then(resp=>resp.json())
-     .then(resp=>props.updatepost(resp))
-     .catch(error=>console.log(error))
-  }*/
-  function getdata()
-  {
-   fetch( next,{
-       'method':'GET',
-       headers:{'Content-Type': 'application/json'}
-     })
-     .then(resp=>resp.json())
-     .then(resp=>{setposts(prevPosts => [...prevPosts, ...resp.results])
-     setnext(resp.next)
-     sethasmore(!!resp.next)
-   console.log(next);})
-     .catch(error=>console.log("ddd"))
-     
-  }
-
-   useEffect(()=>
-   {
-     getdata()
-   },[])
-    
+       
+    /*rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr*/
   return (
     <div className="Share">
        <div className="container">
@@ -115,13 +85,14 @@ function Share(props) {
        <hr className="ligne"/>
        {image &&(
             <div className="postimage">
-                <ClearIcon htmlColor='red' onClick={()=>setimage(null)}/>
+                <ClearIcon htmlColor='red' onClick={()=>{setimage(null)
+                setim('');setvd('')}}/>
                  <img src={image.image} alt=''/>
             </div>
        )}
        {video&&(
             <div className="postvideo">
-                <ClearIcon htmlColor='red' onClick={()=>setvideo(null)}/>
+                <ClearIcon htmlColor='red' onClick={()=>{setvideo(null);setim('');setvd('')}}/>
                 <video src={video.video}></video>
             </div>
        )}
