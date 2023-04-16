@@ -73,7 +73,7 @@ function Share(props) {
         .catch(err => console.log(err));
     }
        
-    /*zzzzzzzzzzzzzzzzzzzzzzz*/
+    /*rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr*/
   return (
     <div className="Share">
        <div className="container">
