@@ -40,17 +40,15 @@ function Posts() {
        headers:{'Content-Type': 'application/json'}
      })
      .then(resp=>resp.json())
-     .then(resp=>setposts(resp["results"]))
-     .then(resp=>setnext(JSON.parse(resp["next"])))
+     .then(resp=>{setposts(prevPosts => [...prevPosts, ...resp.results])
+     setnext(resp.next)
+     sethasmore(!!resp.next)
+   console.log(next);})
      .catch(error=>console.log("ddd"))
-     if (!next){sethasmore(false)
-    console.log(hasmore)}
+     
   }
 
-   useEffect(()=>
-   {
-     getdata()
-   },[])
+  
 
   return (
 
