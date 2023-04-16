@@ -7,6 +7,8 @@ const Header = () => {
     return (
         <div>
             <Link to="/" >Home</Link>
+            <Link to="/App1" >disc</Link>
+            
             <span> | </span>
             {user ? (
                 <>
