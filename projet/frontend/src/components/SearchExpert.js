@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
+import { useState,useRef,useEffect,useContext } from 'react';
 import './SearchExpert.css';
+import AuthContext from '../context/AuthContext'
+import axios from 'axios'
+
 const SearchExpert = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [image, setImage] = useState(null);
+  const [title, settitle] = useState('');
+  const [description, setdescription] = useState('');
+  const [image, setimage] = useState(null);
+  let {user} = useContext(AuthContext)
+
+  function addarticle()
+  {   let data=new FormData()
+      data.append("proprietaire",user.id)
+      data.append("title",title)
+      data.append("description",description)
+      data.append("im",image)
+
+      axios.post(`http://127.0.0.1:8000/api/articles/`,data,
+      { headers:{ 'Content-Type': 'multpart/form-data'}}
+      ).then(resp=>{console.log(resp) 
+        }).catch(err=>console.log(err))
+       
+   }
 
   const handleTitleChange = (event) => {
-    setTitle(event.target.value);
+    settitle(event.target.value);
   };
 
   const handleDescriptionChange = (event) => {
-    setDescription(event.target.value);
+    setdescription(event.target.value);
   };
 
   const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
+    setimage(event.target.files[0]);
   };
 
   const handleAddButtonClick = () => {
-    setTitle('');
-    setDescription('');
-    setImage(null);
+    addarticle()
+    settitle('');
+    setdescription('');
+    setimage(null);
   };
 
   return (
@@ -32,14 +51,12 @@ const SearchExpert = () => {
           type="text"
           id="title"
           name="title"
-          value={title}
           onChange={handleTitleChange}
         /><br /> <br />
         
         <textarea
           id="description"
           name="description"
-          value={description}
           onChange={handleDescriptionChange}
         /><br /> <br />
         

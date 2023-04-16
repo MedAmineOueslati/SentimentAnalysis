@@ -18,7 +18,7 @@ class PostSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ("proprietaire", "title", "im", "b", "id",)
+        fields = ("proprietaire", "title","description", "im", "b", "id",)
 
 
 class CommentSerializer(serializers.ModelSerializer):

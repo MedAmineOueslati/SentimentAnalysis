@@ -2,9 +2,11 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
-import { useState ,useEffect} from 'react';
+import { useState ,useEffect,useContext} from 'react';
+import AuthContext from '../context/AuthContext'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 
 function Expertformulaire(props) {
   
@@ -12,13 +14,15 @@ function Expertformulaire(props) {
     const [description,setdescription]=useState("");
     const [im,setim]=useState(null);
     const navigate = useNavigate();
-  console.log(props.utitle)
+    let {user} = useContext(AuthContext)
+
   function addarticle()
   {   let data=new FormData()
+      data.append("proprietaire",user.id)
       data.append("title",title)
       data.append("description",description)
       data.append("im",im)
-      console.log(data)
+
       axios.post(`http://127.0.0.1:8000/api/articles/`,data,
       { headers:{ 'Content-Type': 'multpart/form-data'}}
       ).then(resp=>{console.log(resp) 

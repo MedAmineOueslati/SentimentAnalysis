@@ -1,5 +1,6 @@
 import './Search.css';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useContext } from 'react';
+import AuthContext from '../context/AuthContext'
 import axios from 'axios'
 import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
@@ -24,9 +25,10 @@ function Search() {
     const [im,setim]=useState(null);
     const [b,setb]=useState(false);
     const navigate = useNavigate();
+    let {user} = useContext(AuthContext)
     
 
-    function updatearticle(item)
+    function editarticle(item)
   { let data={title,description}
    
     fetch( `http://127.0.0.1:8000/api/articles/${item.id}/`,{
@@ -44,6 +46,7 @@ function Search() {
     const updatedB = !item.b; 
   
     const data = {
+      proprietaire:item.proprietaire,
       title: item.title,
       description: item.description,
       b: updatedB
@@ -66,17 +69,7 @@ function Search() {
   
   
   
-  function deletearticle(item) {
-    fetch(`http://127.0.0.1:8000/api/articles/${item.id}/`, {
-      method: 'DELETE'
-    }).then((result) => {
-      result.json().then((resp) => {
-        console.warn(resp)
-      
-      })
-    })
-    getdata()
-  }
+  
   function addarticle()
   {   let data=new FormData()
       data.append("title",title)
@@ -87,7 +80,7 @@ function Search() {
       { headers:{ 'Content-Type': 'multpart/form-data'}}
       ).then(resp=>{console.log(resp) 
         }).catch(err=>console.log(err))
-        getdata()
+       
    }
 
    function getdata()
