@@ -1,6 +1,6 @@
 import './Posts.css';
 import Share from './Share.js';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useContext} from 'react';
 import FavoriteOutlinedIcon from "@mui/icons-material/FavoriteOutlined";
 import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ClearIcon from '@mui/icons-material/Clear';
@@ -10,16 +10,38 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
+import AuthContext from '../context/AuthContext'
 
 
 function Posts() {
   const [posts,setposts]=useState([])
-  const [v,setv]=useState("");
   const [hasmore,sethasmore]=useState(true);
   const [next,setnext]=useState('http://127.0.0.1:8000/api/posts/');
   const [show,setshow]=useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  let {user} = useContext(AuthContext)
   
+  async function NbCommentaire(){
+    let data = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/',{
+      method :'GET',
+       headers:{'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({"idPost": "1"})
+
+    })
+    return data["nb"]
+  }
+
+  async function NomDuPro(){
+    let data = await fetch('http://127.0.0.1:8000/api/UserFullName/',{
+      method :'GET',
+       headers:{'Content-Type': 'application/json'
+      },
+      body:JSON.stringify({"id": "2"})
+
+    })
+    return data["nom"]
+  }
 
   function deletepost(post) {
     axios.delete(`http://127.0.0.1:8000/api/posts/${post.id}/`)
@@ -82,7 +104,7 @@ function Posts() {
       
         <div className="user1">
         <img src={require('./user1.png')} alt="" />
-        <h3 className="name">{post.username}</h3> 
+        <h3 className="name">Mohamed</h3> 
           </div>          
         
         
@@ -132,7 +154,8 @@ function Posts() {
       
      
         <TextsmsOutlinedIcon  onClick={()=>setshow(!show)}/>
-        <h4>12 Comments</h4>
+
+        <h4>1 Comments</h4>
      
     </div>
     {show&&(<div className="comments">

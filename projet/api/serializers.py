@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article, Comment, Expert, ExpertComment, UserAccount, Post
+from .models import Article, Comment, Expert, ExpertComment, PostSupp, PostVerifie, UserAccount, Post
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -9,16 +9,23 @@ class UserAccountSerializer(serializers.ModelSerializer):
                   'DateDeNaissance', 'Sexe', "id",)
 
 
+class ExpertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Expert
+        fields = ('first_name', 'last_name', 'email',
+                  'DateDeNaissance', 'Sexe', "id",)
+
+
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ("proprietaire", "description", "im", "vd", "nb", "id")
+        fields = ("proprietaire", "description", "im", "vd", "bv", "id")
 
 
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
-        fields = ("proprietaire", "title","description", "im", "b", "id",)
+        fields = ("proprietaire", "title", "description", "im", "b", "id",)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -31,3 +38,15 @@ class ExpertCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpertComment
         fields = ("idPost", "idExpert", "description",)
+
+
+class PostVerifieSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostVerifie
+        fields = ("proprietaire", "description", "im", "vd", "bc", "id")
+
+
+class PostSuppSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostSupp
+        fields = ("proprietaire", "description", "im", "vd", "id")

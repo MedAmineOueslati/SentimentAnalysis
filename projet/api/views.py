@@ -1,19 +1,16 @@
 from django.http import JsonResponse
-from rest_framework import status, permissions
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from django.core.paginator import Paginator
-from django.core import serializers
+from rest_framework.decorators import api_view
 from rest_framework import viewsets
 
 
-from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer, PostSerializer, UserAccountSerializer
-
+from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer
+from .serializers import ExpertSerializer, PostSerializer, PostSuppSerializer, PostVerifieSerializer, UserAccountSerializer
 from .forms import SignupForm
 
-from .models import Comment, ExpertComment, UserAccount, Article
-from .models import Post
+from .models import Comment, ExpertComment, PostSupp, PostVerifie, UserAccount, Article
+from .models import Post, Expert
 
 
 @api_view(['GET'])
@@ -25,6 +22,8 @@ def getRoutes(request):
         '/api/articles',
         '/api/Comments',
         '/api/ExpertComments',
+        '/api/PostVerifie',
+        '/api/PostSupp',
     ]
 
     return Response(routes)
@@ -50,20 +49,31 @@ def Signup(request):
 @api_view(['POST'])
 def Login(request):
     try:
-        user = UserAccount.objects.get(email=request.data.get("email"))
-        if (not user.check_password(request.data.get("password"))):
+        expert = Expert.objects.get(email=request.data.get("email"))
+        if (not expert.check_password(request.data.get("password"))):
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
-            return Response(UserAccountSerializer(user).data, status=status.HTTP_200_OK)
-    except UserAccount.DoesNotExist:
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            data = ExpertSerializer(expert).data
+            data.update({"isExpert": True})
+            return Response(data, status=status.HTTP_200_OK)
+    except Expert.DoesNotExist:
+        try:
+            user = UserAccount.objects.get(email=request.data.get("email"))
+            if (not user.check_password(request.data.get("password"))):
+                return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+            else:
+                data = UserAccountSerializer(user).data
+                data.update({"isExpert": False})
+                return Response(data, status=status.HTTP_200_OK)
+        except UserAccount.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 def getUserFullName(request):
     try:
         user = UserAccount.objects.get(id=request.data.get("id"))
-        return Response(user.get_full_name(), status=status.HTTP_200_OK)
+        return Response({"nom": user.get_full_name()}, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -72,9 +82,25 @@ def getUserFullName(request):
 def getExpertFullName(request):
     try:
         Expert = UserAccount.objects.get(id=request.data.get("id"))
-        return Response(Expert.get_full_name(), status=status.HTTP_200_OK)
+        return Response({"nom": Expert.get_full_name()}, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def NombreDeCommentaire(request):
+    try:
+        NbComEx = ExpertComment.objects.filter(
+            idPost=request.data.get("idPost")).count()
+    except ExpertComment.DoesNotExist:
+        NbComEx = 0
+    try:
+        NbComCy = Comment.objects.filter(
+            idPost=request.data.get("idPost")).count()
+    except Comment.DoesNotExist:
+        NbComCy = 0
+
+    return Response({"nb": NbComEx + NbComCy}, status=status.HTTP_200_OK)
 
 
 class postViewSet(viewsets.ModelViewSet):
@@ -95,3 +121,13 @@ class commentViewSet(viewsets.ModelViewSet):
 class expertcommentViewSet(viewsets.ModelViewSet):
     queryset = ExpertComment.objects.all()
     serializer_class = ExpertCommentSerializer
+
+
+class PostVerifieViewSet(viewsets.ModelViewSet):
+    queryset = PostVerifie.objects.all()
+    serializer_class = PostVerifieSerializer
+
+
+class PostSuppViewSet(viewsets.ModelViewSet):
+    queryset = PostSupp.objects.all()
+    serializer_class = PostSuppSerializer

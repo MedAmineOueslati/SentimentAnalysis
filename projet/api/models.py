@@ -84,17 +84,32 @@ class Post (models.Model):
     description = models.TextField()
     im = models.FileField(null=True, blank=True, upload_to='public')
     vd = models.FileField(null=True, blank=True, upload_to='public')
-    nb = models.IntegerField(default=0)
-   # b = models.BooleanField(default=False)
+    bv = models.BooleanField(default=False)
+
+
+class PostVerifie (models.Model):
+    proprietaire = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    description = models.TextField()
+    im = models.FileField(null=True, blank=True, upload_to='public')
+    vd = models.FileField(null=True, blank=True, upload_to='public')
+    bc = models.BooleanField(default=False)
+    sentiment = models.IntegerField(default=0)
+
+
+class PostSupp (models.Model):
+    proprietaire = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    description = models.TextField()
+    im = models.FileField(null=True, blank=True, upload_to='public')
+    vd = models.FileField(null=True, blank=True, upload_to='public')
 
 
 class Comment (models.Model):
-    idPost = models.ForeignKey(Post, on_delete=models.CASCADE)
+    idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
     idUser = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     description = models.TextField()
 
 
 class ExpertComment (models.Model):
-    idPost = models.ForeignKey(Post, on_delete=models.CASCADE)
+    idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
     idExpert = models.ForeignKey(Expert, on_delete=models.CASCADE)
     description = models.TextField()
