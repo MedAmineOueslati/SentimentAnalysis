@@ -27,14 +27,14 @@ const [proprietaire,setproprietaire]=useState(data0);
     let {user} = useContext(AuthContext)
  
 
-  function addarticle()
+  async function addarticle()
   {   let data=new FormData()
       data.append("proprietaire",user.id)
       data.append("title",title)
       data.append("description",description)
       data.append("im",im)
 
-      axios.post(`http://127.0.0.1:8000/api/articles/`,data,
+      await axios.post(`http://127.0.0.1:8000/api/articles/`,data,
       { headers:{ 'Content-Type': 'multpart/form-data'}}
       ).then(resp=>{console.log(resp) 
         }).catch(err=>console.log(err))
@@ -42,25 +42,22 @@ const [proprietaire,setproprietaire]=useState(data0);
         navigate('/App1') 
         window.location.reload()
    }
-   function editarticle(item)
+   
+   async function editarticle()
    { 
-    const data = {
-      proprietaire:proprietaire,
-      title:title,
-      description:description,
-      im:im,
-      
-    };
-    
-     fetch( `http://127.0.0.1:8000/api/articles/${data4}/`,{
-         'method':'PUT',
-         headers:{'Accept':'application/json','Content-Type': 'application/json'},
-         body:JSON.stringify(data)})
-       .then(resp=>{resp.json()
-       console.log(resp.title)})
-       .catch(error=>console.log(error))
+    let data=new FormData()
+      data.append("proprietaire",user.id)
+      data.append("title",title)
+      data.append("description",description)
+      data.append("im",im ? im : data3)
+
+      await axios.put(`http://127.0.0.1:8000/api/articles/${data4}/`,data,
+      { headers:{ 'Content-Type': 'multpart/form-data'}}
+      ).then(resp=>{console.log(resp) 
+        }).catch(err=>console.log(err))
        
-       navigate('/App1') 
+        navigate('/App1') 
+        window.location.reload() 
       
    }
    
