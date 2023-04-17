@@ -1,4 +1,4 @@
-import SearchExpert from './SearchExpert.js';
+
 import Posts from './Posts.js';
 
 import Search from './Search.js';

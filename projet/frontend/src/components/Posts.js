@@ -6,6 +6,10 @@ import TextsmsOutlinedIcon from "@mui/icons-material/TextsmsOutlined";
 import ClearIcon from '@mui/icons-material/Clear';
 import InfiniteScroll from "react-infinite-scroll-component"
 import axios from 'axios'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 
 
 function Posts() {
@@ -13,7 +17,8 @@ function Posts() {
   const [v,setv]=useState("");
   const [hasmore,sethasmore]=useState(true);
   const [next,setnext]=useState('http://127.0.0.1:8000/api/posts/');
-
+  const [show,setshow]=useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   
 
   function deletepost(post) {
@@ -80,8 +85,34 @@ function Posts() {
         <h3 className="name">{post.username}</h3> 
           </div>          
         
-        <ClearIcon htmlColor='red' onClick={()=> deletepost(post)}/>
-      
+        
+        <div className="dropdown">
+        <MoreVertIcon htmlColor='#424242' onClick={()=> setIsOpen(!isOpen)} />
+
+          
+        {isOpen && (
+          <ul className="dropdown-menu">
+            <li >
+            <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
+             <span>Positive</span>
+            </li>
+            <li >
+            <SentimentNeutralIcon   htmlColor='#FFD54F'/>
+             <span>Neutre</span>
+            </li>
+            <li >
+            <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
+              <span>Negative</span>
+            </li>
+            <li   onClick={()=> deletepost(post)}>
+            <ClearIcon htmlColor='red'/>
+            <span>Supprimer</span> 
+            </li>
+          </ul>
+        )}
+      </div>
+        
+
     </div>
     <div className="content">
       <p>{post.description}</p>
@@ -100,10 +131,25 @@ function Posts() {
     <div className="info">
       
      
-        <TextsmsOutlinedIcon />
+        <TextsmsOutlinedIcon  onClick={()=>setshow(!show)}/>
         <h4>12 Comments</h4>
      
     </div>
+    {show&&(<div className="comments">
+    <div className="commentstrait"></div>
+    <div className="commentscontent">
+    <div className='entete'>
+    <div className='user'><img src={require('./user1.png')} alt="" />
+    <h4>Dali Mathlouthi</h4></div>
+    <MoreVertIcon htmlColor='#424242'/>
+    </div>
+    <p>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+    </div>
+    <div className="commentsform">
+    <input type="text" placeholder='Add a new comment' ></input>
+    <input type="submit" value="Add " ></input>
+    </div>
+    </div>)}
     
   </div>
 </div>
