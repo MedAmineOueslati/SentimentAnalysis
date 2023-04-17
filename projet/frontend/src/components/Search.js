@@ -10,8 +10,8 @@ import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Expertformulaire from './Expertformulaire';
 import { useNavigate } from 'react-router-dom';
-
-
+import { Link } from 'react-router-dom';
+import Expertform from './Expertformulaire';
 
 
 
@@ -28,26 +28,14 @@ function Search() {
     let {user} = useContext(AuthContext)
     
 
-    function editarticle(item)
-  { let data={title,description}
    
-    fetch( `http://127.0.0.1:8000/api/articles/${item.id}/`,{
-        'method':'PUT',
-        headers:{'Accept':'application/json','Content-Type': 'application/json'},
-        body:JSON.stringify(data)})
-      .then(resp=>{resp.json()
-      })
-      .catch(error=>console.log(error))
-      getdata()
-
-  }
   function updatearticle(item) { 
     
     const updatedB = !item.b; 
   
     const data = {
       proprietaire:item.proprietaire,
-      title: item.title,
+      
       description: item.description,
       b: updatedB
     };
@@ -70,18 +58,7 @@ function Search() {
   
   
   
-  function addarticle()
-  {   let data=new FormData()
-      data.append("title",title)
-      data.append("description",description)
-      data.append("im",im)
-
-      axios.post(`http://127.0.0.1:8000/api/articles/`,data,
-      { headers:{ 'Content-Type': 'multpart/form-data'}}
-      ).then(resp=>{console.log(resp) 
-        }).catch(err=>console.log(err))
-       
-   }
+  
 
    function getdata()
    {
@@ -129,7 +106,8 @@ function Search() {
         
         <div className="article" key={item.id}>
         <div className="arcontainer"><h3> {item.title}</h3>
-      < EditIcon   onClick={()=>handleUpdateClick(item)}/></div>
+        <Link to={`/Expertform?data0=${encodeURIComponent(item.proprietaire)}&data1=${encodeURIComponent(item.title)}&data2=${encodeURIComponent(item.description)}&data3=${encodeURIComponent(item.im)}
+        &data4=${encodeURIComponent(item.id)}`}><EditIcon /></Link></div>
         <img src={item.im}/>
         
         
