@@ -19,6 +19,8 @@ function Posts() {
   const [next,setnext]=useState('http://127.0.0.1:8000/api/posts/');
   const [show,setshow]=useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [name,setname]=useState("dali");
+  const [authors, setAuthors] = useState({});
   let {user} = useContext(AuthContext)
   
   async function NbCommentaire(){
@@ -29,19 +31,41 @@ function Posts() {
       body:JSON.stringify({"idPost": "1"})
 
     })
-    return data["nb"]
+    console.log(data["nb"]);
   }
+  
 
-  async function NomDuPro(){
-    let data = await fetch('http://127.0.0.1:8000/api/UserFullName/',{
-      method :'GET',
-       headers:{'Content-Type': 'application/json'
-      },
-      body:JSON.stringify({"id": "2"})
-
-    })
-    return data["nom"]
-  }
+  
+    async function NomDuPro(id) {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/UserFullName/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: id }),
+        });
+        const data = await response.json();
+       
+        return(data.nom)
+        
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+    
+    useEffect(() => {
+      async function getAuthors() {
+        const newAuthors = {};
+        for (const post of posts) {
+          const authorName = await NomDuPro(post.id);
+          newAuthors[post.id] = authorName;
+        }
+        setAuthors(newAuthors);
+      }
+      getAuthors();
+    }, [posts]);
 
   function deletepost(post) {
     axios.delete(`http://127.0.0.1:8000/api/posts/${post.id}/`)
@@ -77,7 +101,7 @@ function Posts() {
 
   useEffect(()=>
    {
-     getdata()
+    getdata()
    },[])
 
   return (
@@ -104,7 +128,7 @@ function Posts() {
       
         <div className="user1">
         <img src={require('./user1.png')} alt="" />
-        <h3 className="name">Mohamed</h3> 
+        <h3 className="name" >{authors[post.id]}</h3> 
           </div>          
         
         

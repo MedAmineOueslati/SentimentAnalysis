@@ -69,7 +69,7 @@ def Login(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getUserFullName(request):
     try:
         user = UserAccount.objects.get(id=request.data.get("id"))
