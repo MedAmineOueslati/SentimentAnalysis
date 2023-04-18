@@ -72,22 +72,33 @@ def Login(request):
 @api_view(['POST'])
 def getUserFullName(request):
     try:
-        user = UserAccount.objects.get(id=request.data.get("id"))
+        post = Post.objects.get(id=request.data.get("id"))
+        user = UserAccount.objects.get(email=post.proprietaire)
         return Response({"nom": user.get_full_name()}, status=status.HTTP_200_OK)
-    except UserAccount.DoesNotExist:
+    except Post.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def getUserFullNameVer(request):
+    try:
+        post = PostVerifie.objects.get(id=request.data.get("id"))
+        user = UserAccount.objects.get(email=post.proprietaire)
+        return Response({"nom": user.get_full_name()}, status=status.HTTP_200_OK)
+    except Post.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
 def getExpertFullName(request):
     try:
-        Expert = UserAccount.objects.get(id=request.data.get("id"))
-        return Response({"nom": Expert.get_full_name()}, status=status.HTTP_200_OK)
+        expert = Expert.objects.get(id=request.data.get("id"))
+        return Response({"nom": expert.get_full_name()}, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def NombreDeCommentaire(request):
     try:
         NbComEx = ExpertComment.objects.filter(

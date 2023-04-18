@@ -43,7 +43,8 @@ class ExpertCommentSerializer(serializers.ModelSerializer):
 class PostVerifieSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostVerifie
-        fields = ("proprietaire", "description", "im", "vd", "bc", "id")
+        fields = ("proprietaire", "description",
+                  "im", "vd", "bc", "id", "sentiment")
 
 
 class PostSuppSerializer(serializers.ModelSerializer):

@@ -16,25 +16,13 @@ import AuthContext from '../context/AuthContext'
 function Posts() {
   const [posts,setposts]=useState([])
   const [hasmore,sethasmore]=useState(true);
-  const [next,setnext]=useState('http://127.0.0.1:8000/api/posts/');
+  const [next,setnext]=useState('http://127.0.0.1:8000/api/PostVerifie/');
+  const [nextUnv,setnextUnv]=useState('http://127.0.0.1:8000/api/posts/');
+  const [Unvposts,setUnvposts]=useState([])
   const [show,setshow]=useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [name,setname]=useState("dali");
   const [authors, setAuthors] = useState({});
   let {user} = useContext(AuthContext)
-  
-  async function NbCommentaire(){
-    let data = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/',{
-      method :'GET',
-       headers:{'Content-Type': 'application/json'
-      },
-      body:JSON.stringify({"idPost": "1"})
-
-    })
-    console.log(data["nb"]);
-  }
-  
-
   
     async function NomDuPro(id) {
       try {
@@ -54,64 +42,97 @@ function Posts() {
       }
       
     }
-    /*kkkkkkkkkkkkkkkkkkkkkkllllllllllll*/
+    async function verifPost(id,sentiment){
+      try {
+        let postverifie = (await axios.get(`http://127.0.0.1:8000/api/posts/${id}/`)).data
+        let data = {
+          "proprietaire" : postverifie.proprietaire ,
+          "description" : postverifie.description ,
+          "im": postverifie.im,
+          "vd" : postverifie.vd,
+          "sentiment" : sentiment
+        }
+        await axios.delete(`http://127.0.0.1:8000/api/posts/${id}/`).then(() => {
+          const updatedPosts = Unvposts.filter(p => p.id !== id);
+         
+          setUnvposts(updatedPosts);
+        }).catch(err => {
+          console.error(err);
+        });
+        await axios.post('http://127.0.0.1:8000/api/PostVerifie/', data, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        })
+        }
+      catch (error) {
+        console.log(error);
+      }
+    }
     useEffect(() => {
       async function getAuthors() {
         const newAuthors = {};
-        for (const post of posts) {
+        for (const post of Unvposts) {
           const authorName = await NomDuPro(post.id);
           newAuthors[post.id] = authorName;
         }
         setAuthors(newAuthors);
       }
       getAuthors();
-    }, [posts]);
+    }, [Unvposts]);
 
-  function deletepost(post) {
-    axios.delete(`http://127.0.0.1:8000/api/posts/${post.id}/`)
+  async function deletepost(post) {
+    let postsupp = (await axios.get(`http://127.0.0.1:8000/api/posts/${post.id}/`)).data
+    let data = {
+      "proprietaire" : postsupp.proprietaire ,
+      "description" : postsupp.description ,
+      "im": postsupp.im,
+      "vd" : postsupp.vd 
+    }
+    await axios.delete(`http://127.0.0.1:8000/api/posts/${post.id}/`)
     .then(() => {
-      const updatedPosts = posts.filter(p => p.id !== post.id);
+      const updatedPosts = Unvposts.filter(p => p.id !== post.id);
      
-      setposts(updatedPosts);
+      setUnvposts(updatedPosts);
     }).catch(err => {
       console.error(err);
     });
+    await axios.post('http://127.0.0.1:8000/api/PostSupp/', data, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
   }
   
-  function updatepost(newstate)
+  function updateUnvpost(newstate)
   {
-    setposts(newstate)
+    setUnvposts(newstate)
   }
   
-  
-  function getdata()
+   function getUnverifiedData()
   {
-   fetch( next,{
+    fetch( nextUnv,{
        'method':'GET',
        headers:{'Content-Type': 'application/json'}
      })
      .then(resp=>resp.json())
-     .then(resp=>{setposts(prevPosts => [...prevPosts, ...resp.results])
-     setnext(resp.next)
+     .then(resp=>{setUnvposts(prevUnvPosts => [...prevUnvPosts, ...resp.results])
+      setnextUnv(resp.next)
      sethasmore(!!resp.next)
-   console.log(next);})
+   })
      .catch(error=>console.log("ddd"))
      
   }
 
   useEffect(()=>
    {
-    getdata()
+    getUnverifiedData()
    },[])
 
   return (
 
 
    <div>
-     <Share posts={posts} updatepost={updatepost}/>
+     <Share posts={Unvposts} updatepost={updateUnvpost}/>
      <InfiniteScroll
-  dataLength={posts.length} 
-  next={getdata}
+  dataLength={Unvposts.length} 
+  next={getUnverifiedData}
   hasMore={hasmore}
   loader={<h4>Loading...</h4>}
   endMessage={
@@ -121,7 +142,7 @@ function Posts() {
   }>
  
 
-{posts.map(post=>(
+{Unvposts.map(post=>(
   <div className="post">
   <div className="container">
     <div className="user">
@@ -138,15 +159,15 @@ function Posts() {
           
         {isOpen && (
           <ul className="dropdown-menu">
-            <li >
+            <li onClick={()=> verifPost(post.id,1)}>
             <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
              <span>Positive</span>
             </li>
-            <li >
+            <li onClick={()=> verifPost(post.id,0)}>
             <SentimentNeutralIcon   htmlColor='#FFD54F'/>
              <span>Neutre</span>
             </li>
-            <li >
+            <li onClick={()=> verifPost(post.id,-1)}>
             <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
               <span>Negative</span>
             </li>
@@ -174,29 +195,6 @@ function Posts() {
       }
       
     </div>
-    <div className="info">
-      
-     
-        <TextsmsOutlinedIcon  onClick={()=>setshow(!show)}/>
-
-        <h4>1 Comments</h4>
-     
-    </div>
-    {show&&(<div className="comments">
-    <div className="commentstrait"></div>
-    <div className="commentscontent">
-    <div className='entete'>
-    <div className='user'><img src={require('./user1.png')} alt="" />
-    <h4>Dali Mathlouthi</h4></div>
-    <MoreVertIcon htmlColor='#424242'/>
-    </div>
-    <p>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
-    </div>
-    <div className="commentsform">
-    <input type="text" placeholder='Add a new comment' ></input>
-    <input type="submit" value="Add " ></input>
-    </div>
-    </div>)}
     
   </div>
 </div>

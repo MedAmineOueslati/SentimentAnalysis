@@ -9,6 +9,8 @@ const Header = () => {
             <Link to="/" >Home</Link>
             <span> | </span>
             <Link to="/App1" >disc</Link>
+            <span> | </span>
+            <Link to="/PostsCy" >discCy</Link>
             
             <span> | </span>
             {user ? (
