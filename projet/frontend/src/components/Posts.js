@@ -54,7 +54,7 @@ function Posts() {
       }
       
     }
-    /*kkkkkkkkkkkkkkkkkkkkkk*/
+    /*kkkkkkkkkkkkkkkkkkkkkkllllllllllll*/
     useEffect(() => {
       async function getAuthors() {
         const newAuthors = {};
