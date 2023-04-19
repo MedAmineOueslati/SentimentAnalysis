@@ -159,3 +159,13 @@ class PostVerifieViewSet(viewsets.ModelViewSet):
 class PostSuppViewSet(viewsets.ModelViewSet):
     queryset = PostSupp.objects.all()
     serializer_class = PostSuppSerializer
+
+
+class commentDetail(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
+class ExpertcommentDetail(viewsets.ModelViewSet):
+    queryset = ExpertComment.objects.all()
+    serializer_class = ExpertCommentSerializer

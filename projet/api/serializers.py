@@ -31,13 +31,13 @@ class ArticleSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ("idPost", "idUser", "description",)
+        fields = ("idPost", "idUser", "description", "sentiment",)
 
 
 class ExpertCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpertComment
-        fields = ("idPost", "idExpert", "description",)
+        fields = ("idPost", "idExpert", "description", "sentiment",)
 
 
 class PostVerifieSerializer(serializers.ModelSerializer):
