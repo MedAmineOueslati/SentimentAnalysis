@@ -19,6 +19,8 @@ function PostsCy() {
   const [posts,setposts]=useState([])
   const [show,setshow]=useState(false);
   const [authors, setAuthors] = useState({});
+  const [cytname, setcytname] = useState({});
+  const [expname, setexpname] = useState({});
   const [nbcomments, setnbcomments] = useState({});
   const [bc, setbc] = useState({});
   const [comments,setcomments]=useState([])
@@ -27,6 +29,7 @@ function PostsCy() {
   const [ecomments,setecomments]=useState([])
   const [ehasmorec,setehasmorec]=useState(true);
   const [enextc, setenextc] = useState('');
+  const [cdescription, setcdescription] = useState('');
   let {user} = useContext(AuthContext)
 
   useEffect(() => {
@@ -100,6 +103,66 @@ function PostsCy() {
       }
       getAuthors();
     }, [posts]);
+    async function NomDucyt(id1) {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/CommenterFullName/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id:id1 }),
+        });
+        const data = await response.json();
+       
+        return(data.nom)
+        
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+    useEffect(() => {
+      async function getcytname() {
+        const newcytname = {};
+        for (const comment of comments) {
+          const cytName = await NomDucyt(comment.id);
+          newcytname[comment.id] = cytName;
+        }
+        setcytname(newcytname);
+      }
+      getcytname();
+    }, [comments]);
+
+    async function NomDuexp(id1) {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/ExpertFullName/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id:id1 }),
+        });
+        const data = await response.json();
+       
+        return(data.nom)
+        
+      } catch (error) {
+        console.log(error);
+      }
+      
+    }
+    useEffect(() => {
+      async function getexpname() {
+        const newexpname = {};
+        for (const comment of ecomments) {
+          const expName = await NomDuexp(comment.id);
+          newexpname[comment.id] = expName;
+        }
+        setexpname(newexpname);
+      }
+      getexpname();
+    }, [ecomments]);
+    
 
   
   
@@ -145,7 +208,7 @@ function PostsCy() {
       
       
    }
- 
+   
    
     function getecomments()
     {
@@ -165,6 +228,39 @@ function PostsCy() {
        
        
     }
+     
+    async function addcomment(idp)
+    {   let data=new FormData()
+        data.append("idUser",user.id)
+        data.append("idPost",idp)
+        data.append("description",cdescription)
+        
+  
+        await axios.post(`http://127.0.0.1:8000/api/commentDetail/`,data,
+        { headers:{ 'Content-Type': 'multpart/form-data'}}
+        ).then(resp=>{console.log(resp) 
+          const newcomment = resp.data;
+         setcomments(comments => [newcomment, ...comments]);
+          }).catch(err=>console.log(err))
+          
+         
+     }
+     async function addecomment(idp)
+    {   let data=new FormData()
+        data.append("idExpert",user.id)
+        data.append("idPost",idp)
+        data.append("description",cdescription)
+        
+  
+        await axios.post(`http://127.0.0.1:8000/api/ExpertcommentDetail/`,data,
+        { headers:{ 'Content-Type': 'multpart/form-data'}}
+        ).then(resp=>{console.log(resp) 
+          const newecomment = resp.data;
+         setecomments(ecomments => [newecomment, ...ecomments]);
+          }).catch(err=>console.log(err))
+          
+         
+     }
   
     
  
@@ -248,15 +344,37 @@ function PostsCy() {
      loader={<h4>Loading...</h4>}
      endMessage={
        <p style={{ textAlign: 'center' }}>
-         <h4>termineé...</h4>
+         
        </p>
      }>
     {ecomments.map(ecomment=>(
     <div className="commentscontent">
     <div className='entete'>
     <div className='user'><img src={require('./user1.png')} alt="" />
-    <h4>Dali Mathlouthi</h4></div>
+    <h4>{expname[ecomment.id]}</h4></div>
+    <div className="dropdown">
     <MoreVertIcon htmlColor='#424242'/>
+    {true && (
+          <ul className="dropdown-menu">
+            <li >
+            <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
+             <span>Positive</span>
+            </li>
+            <li >
+            <SentimentNeutralIcon   htmlColor='#FFD54F'/>
+             <span>Neutre</span>
+            </li>
+            <li >
+            <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
+              <span>Negative</span>
+            </li>
+            <li  >
+            <ClearIcon htmlColor='red'/>
+            <span>Supprimer</span> 
+            </li>
+          </ul>
+        )}
+        </div>
     </div>
     <p>{ecomment.description}</p>
     </div>))}
@@ -268,7 +386,7 @@ function PostsCy() {
      loader={<h4>Loading...</h4>}
      endMessage={
        <p style={{ textAlign: 'center' }}>
-         <h4>termineé...</h4>
+         
        </p>
      }>
     {comments.map(comment=>(
@@ -276,16 +394,45 @@ function PostsCy() {
     <div className='entete'>
     <div className='user'><img src={require('./user1.png')} alt="" />
 
-    <h4>Dali Mathlouthi</h4></div>
+    <h4>{cytname[comment.id]}</h4></div>
     <MoreVertIcon htmlColor='#424242'/>
+    {true && (
+       <div className="dropdown">
+          <ul className="dropdown-menu">
+            <li >
+            <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
+             <span>Positive</span>
+            </li>
+            <li >
+            <SentimentNeutralIcon   htmlColor='#FFD54F'/>
+             <span>Neutre</span>
+            </li>
+            <li >
+            <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
+              <span>Negative</span>
+            </li>
+            <li  >
+            <ClearIcon htmlColor='red'/>
+            <span>Supprimer</span> 
+            </li>
+          </ul>
+        </div>
+        )}
+        
     </div>
     <p>{comment.description}</p>
     </div>))}
     </InfiniteScroll>
    
     <div className="commentsform">
-    <input type="text" placeholder='Add a new comment' ></input>
-    <input type="submit" value="Add " ></input>
+    <input type="text" placeholder='Add a new comment' value={cdescription} onChange={(e)=>setcdescription(e.target.value)} ></input>
+    <input type="submit" value="Add " onClick={()=>{
+      if (user.isExpert)
+      {addecomment(post.id)}
+      else
+      {addcomment(post.id)}
+      setcdescription("")
+    }}></input>
     </div>
     </div>)}
    
