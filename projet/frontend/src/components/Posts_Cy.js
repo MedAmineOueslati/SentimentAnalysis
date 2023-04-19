@@ -19,7 +19,14 @@ function PostsCy() {
   const [posts,setposts]=useState([])
   const [show,setshow]=useState(false);
   const [authors, setAuthors] = useState({});
+  const [nbcomments, setnbcomments] = useState({});
   const [bc, setbc] = useState({});
+  const [comments,setcomments]=useState([])
+  const [hasmorec,sethasmorec]=useState(true);
+  const [nextc, setnextc] = useState('');
+  const [ecomments,setecomments]=useState([])
+  const [ehasmorec,setehasmorec]=useState(true);
+  const [enextc, setenextc] = useState('');
   let {user} = useContext(AuthContext)
 
   useEffect(() => {
@@ -34,15 +41,33 @@ function PostsCy() {
   }, [posts]);
   
   async function NbCommentaire(id){
-    let data = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/',{
-      method :'POST',
-       headers:{'Content-Type': 'application/json'
-      },
-      body:JSON.stringify({"idPost": id})
-
-    })
-    return data["nb"];
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      });
+      const data = await response.json();
+     
+      return(data.nb)
+      
+    } catch (error) {
+      console.log(error);
+    }
   }
+  useEffect(() => {
+    async function getnbcomments() {
+      const newnbcomments = {};
+      for (const post of posts) {
+        const nbc = await NbCommentaire(post.id);
+        newnbcomments[post.id] = nbc;
+      }
+      setnbcomments(newnbcomments);
+    }
+    getnbcomments();
+  }, [posts]);
   
 
   
@@ -103,6 +128,45 @@ function PostsCy() {
    {
     getdata()
    },[])
+   function getcomments()
+   {
+     fetch( nextc,{
+        'method':'GET',
+        headers:{'Content-Type': 'application/json'}
+      })
+      .then(resp=>resp.json())
+      .then(resp=>{setcomments(prevcomments => [...prevcomments, ...resp.results])
+       setnextc(resp.next)
+      sethasmorec(!!resp.next)
+    })
+      .catch(error=>console.log("ddd"))
+      
+   }
+ 
+   useEffect(()=>
+    {
+      getcomments()
+    },[])
+    function getecomments()
+    {
+      fetch( enextc,{
+         'method':'GET',
+         headers:{'Content-Type': 'application/json'}
+       })
+       .then(resp=>resp.json())
+       .then(resp=>{setecomments(prevcomments => [...prevcomments, ...resp.results])
+        setenextc(resp.next)
+       setehasmorec(!!resp.next)
+     })
+       .catch(error=>console.log("ddd"))
+       
+    }
+  
+    useEffect(()=>
+     {
+       getecomments()
+     },[])
+ 
 
   return (
 
@@ -152,28 +216,78 @@ function PostsCy() {
      
         <TextsmsOutlinedIcon  onClick={() => {
   const currentValue = bc[post.id];
-  const updatedbc = { ...bc, [post.id]: !currentValue };
-  setbc(updatedbc);
+  setnextc(`http://127.0.0.1:8000/api/comments/${post.id}/`)
+  setenextc(`http://127.0.0.1:8000/api/expertComments/${post.id}/`)
+  setcomments([]);
+  setecomments([])
+  const newbc = {};
+      for (const p of posts) {
+        if(p.id!=post.id)
+        newbc[p.id] =false;
+        else
+        newbc[p.id] =!currentValue;
+      }
+      setbc(newbc);
+    
 }}/>
 
-        <h4>1 Comments</h4>
+        <h4>{nbcomments[post.id]} comments</h4>
      
     </div>
-    {bc[post.id]&&(<div className="comments">
+    {bc[post.id]&&(
+     
+    
+    <div className="comments">
     <div className="commentstrait"></div>
+    <InfiniteScroll
+     dataLength={ecomments.length} 
+     next={getecomments()}
+     hasMore={ehasmorec}
+     loader={<h4>Loading...</h4>}
+     endMessage={
+       <p style={{ textAlign: 'center' }}>
+         <h4>termineé...</h4>
+       </p>
+     }>
+    {ecomments.map(ecomment=>(
     <div className="commentscontent">
     <div className='entete'>
     <div className='user'><img src={require('./user1.png')} alt="" />
+
     <h4>Dali Mathlouthi</h4></div>
     <MoreVertIcon htmlColor='#424242'/>
     </div>
-    <p>hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh</p>
+    <p>{ecomment.description}</p>
+    </div>))}
+    </InfiniteScroll>
+    <InfiniteScroll
+     dataLength={comments.length} 
+     next={getcomments()}
+     hasMore={hasmorec}
+     loader={<h4>Loading...</h4>}
+     endMessage={
+       <p style={{ textAlign: 'center' }}>
+         <h4>termineé...</h4>
+       </p>
+     }>
+    {comments.map(comment=>(
+    <div className="commentscontent">
+    <div className='entete'>
+    <div className='user'><img src={require('./user1.png')} alt="" />
+
+    <h4>Dali Mathlouthi</h4></div>
+    <MoreVertIcon htmlColor='#424242'/>
     </div>
+    <p>{comment.description}</p>
+    </div>))}
+    </InfiniteScroll>
+   
     <div className="commentsform">
     <input type="text" placeholder='Add a new comment' ></input>
     <input type="submit" value="Add " ></input>
     </div>
     </div>)}
+   
     
   </div>
 </div>
