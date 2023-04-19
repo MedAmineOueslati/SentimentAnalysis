@@ -89,11 +89,22 @@ def getUserFullNameVer(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def getExpertFullName(request):
     try:
-        expert = Expert.objects.get(id=request.data.get("id"))
+        comment = ExpertComment.objects.get(id=request.data.get("id"))
+        expert = Expert.objects.get(id=comment.idExpert)
         return Response({"nom": expert.get_full_name()}, status=status.HTTP_200_OK)
+    except UserAccount.DoesNotExist:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def getCommenterFullName(request):
+    try:
+        comment = Comment.objects.get(id=request.data.get("id"))
+        user = UserAccount.objects.get(id=comment.idUser)
+        return Response({"nom": user.get_full_name()}, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
 

@@ -107,9 +107,11 @@ class Comment (models.Model):
     idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
     idUser = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
     description = models.TextField()
+    sentiment = models.IntegerField(default=0, blank=True)
 
 
 class ExpertComment (models.Model):
     idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
     idExpert = models.ForeignKey(Expert, on_delete=models.CASCADE)
     description = models.TextField()
+    sentiment = models.IntegerField(default=0, blank=True)
