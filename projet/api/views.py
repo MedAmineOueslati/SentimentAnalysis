@@ -93,7 +93,7 @@ def getUserFullNameVer(request):
 def getExpertFullName(request):
     try:
         comment = ExpertComment.objects.get(id=request.data.get("id"))
-        expert = Expert.objects.get(id=comment.idExpert)
+        expert = Expert.objects.get(email=comment.idExpert)
         return Response({"nom": expert.get_full_name()}, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -103,7 +103,7 @@ def getExpertFullName(request):
 def getCommenterFullName(request):
     try:
         comment = Comment.objects.get(id=request.data.get("id"))
-        user = UserAccount.objects.get(id=comment.idUser)
+        user = UserAccount.objects.get(email=comment.idUser)
         return Response({"nom": user.get_full_name()}, status=status.HTTP_200_OK)
     except UserAccount.DoesNotExist:
         return Response(status=status.HTTP_400_BAD_REQUEST)
