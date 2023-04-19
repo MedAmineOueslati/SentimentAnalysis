@@ -1,6 +1,6 @@
 from django.urls import include, path
 from . import views
-from .views import ExpertcommentDetail, Login, NombreDeCommentaire, PostSuppViewSet, PostVerifieViewSet, Signup, commentDetail, getCommenterFullName, getUserFullNameVer
+from .views import ExpertcommentDetail, Login, NombreDeCommentaire, PostSuppViewSet, PostVerifieViewSet, Signup, commentDetail, getCommenterFullName, getNomreDePostAverf, getUserFullNameVer
 from .views import articleViewSet, commentViewSet, expertcommentViewSet, getExpertFullName, getUserFullName, postViewSet
 from django.conf import settings
 from rest_framework.routers import DefaultRouter
@@ -26,6 +26,7 @@ urlpatterns = [
     path('UserFullName/', getUserFullName, name='UserFullName'),
     path('ExpertFullName/', getExpertFullName, name='ExpertFullName'),
     path('NombreDeCommentaire/', NombreDeCommentaire, name='NombreDeCommentaire'),
+    path('NomreDePostAverf/', getNomreDePostAverf, name='NomreDePostAverf'),
     path('UserFullNameVer/', getUserFullNameVer, name='UserFullNameVer'),
     path('CommenterFullName/', getCommenterFullName, name='CommenterFullName'),
     path('comments/<int:idPost>/',

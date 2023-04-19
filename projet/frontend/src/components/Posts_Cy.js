@@ -47,7 +47,7 @@ function PostsCy() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id: id }),
+        body: JSON.stringify({ idPost: id }),
       });
       const data = await response.json();
      

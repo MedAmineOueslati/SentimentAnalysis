@@ -125,6 +125,12 @@ def NombreDeCommentaire(request):
     return Response({"nb": NbComEx + NbComCy}, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def getNomreDePostAverf(request):
+    NbP = Post.objects.all().count()
+    return Response({"Nb": NbP}, status=status.HTTP_200_OK)
+
+
 class postViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
