@@ -125,13 +125,19 @@ class articleViewSet(viewsets.ModelViewSet):
 
 
 class commentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        queryset = Comment.objects.filter(idPost=self.kwargs['idPost'])
+        return queryset
 
 
 class expertcommentViewSet(viewsets.ModelViewSet):
-    queryset = ExpertComment.objects.all()
     serializer_class = ExpertCommentSerializer
+
+    def get_queryset(self):
+        queryset = ExpertComment.objects.filter(idPost=self.kwargs['idPost'])
+        return queryset
 
 
 class PostVerifieViewSet(viewsets.ModelViewSet):

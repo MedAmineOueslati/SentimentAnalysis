@@ -24,5 +24,10 @@ urlpatterns = [
     path('ExpertFullName/', getExpertFullName, name='ExpertFullName'),
     path('NombreDeCommentaire/', NombreDeCommentaire, name='NombreDeCommentaire'),
     path('UserFullNameVer/', getUserFullNameVer, name='UserFullNameVer'),
+    path('comments/<int:idPost>/',
+         commentViewSet.as_view({'get': 'list'}), name='comment-detail'),
+    path('expertComments/<int:idPost>/',
+         expertcommentViewSet.as_view({'get': 'list'}), name='comment-detail'),
+
 
 ]
