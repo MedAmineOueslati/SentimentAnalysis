@@ -22,6 +22,7 @@ function Posts() {
   const [show,setshow]=useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [authors, setAuthors] = useState({});
+  const [bv, setbv] = useState({});
   let {user} = useContext(AuthContext)
   
     async function NomDuPro(id) {
@@ -79,6 +80,17 @@ function Posts() {
       getAuthors();
     }, [Unvposts]);
 
+    useEffect(() => {
+      async function getbv() {
+        const newbv = {};
+        for (const post of Unvposts) {
+          newbv[post.id] = post.bv;
+        }
+        setbv(newbv);
+      }
+      getbv();
+    }, [Unvposts]);
+
   async function deletepost(post) {
     let postsupp = (await axios.get(`http://127.0.0.1:8000/api/posts/${post.id}/`)).data
     let data = {
@@ -119,7 +131,7 @@ function Posts() {
      .catch(error=>console.log("ddd"))
      
   }
-/*llllll*/
+
   useEffect(()=>
    {
     getUnverifiedData()
@@ -154,10 +166,14 @@ function Posts() {
         
         
         <div className="dropdown">
-        <MoreVertIcon htmlColor='#424242' onClick={()=> setIsOpen(!isOpen)} />
+        <MoreVertIcon htmlColor='#424242' onClick={() => {
+  const currentValue = bv[post.id];
+  const updatedBv = { ...bv, [post.id]: !currentValue };
+  setbv(updatedBv);
+}}/>
 
           
-        {isOpen && (
+        {bv[post.id] && (
           <ul className="dropdown-menu">
             <li onClick={()=> verifPost(post.id,1)}>
             <AddCircleOutlineIcon  htmlColor='#9CCC65'/>

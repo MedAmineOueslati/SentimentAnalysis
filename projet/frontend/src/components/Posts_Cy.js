@@ -19,7 +19,19 @@ function PostsCy() {
   const [posts,setposts]=useState([])
   const [show,setshow]=useState(false);
   const [authors, setAuthors] = useState({});
+  const [bc, setbc] = useState({});
   let {user} = useContext(AuthContext)
+
+  useEffect(() => {
+    async function getbc() {
+      const newbc = {};
+      for (const post of posts) {
+        newbc[post.id] = post.bc;
+      }
+      setbc(newbc);
+    }
+    getbc();
+  }, [posts]);
   
   async function NbCommentaire(id){
     let data = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/',{
@@ -138,12 +150,16 @@ function PostsCy() {
     <div className="info">
       
      
-        <TextsmsOutlinedIcon  onClick={()=>setshow(!show)}/>
+        <TextsmsOutlinedIcon  onClick={() => {
+  const currentValue = bc[post.id];
+  const updatedbc = { ...bc, [post.id]: !currentValue };
+  setbc(updatedbc);
+}}/>
 
         <h4>1 Comments</h4>
      
     </div>
-    {show&&(<div className="comments">
+    {bc[post.id]&&(<div className="comments">
     <div className="commentstrait"></div>
     <div className="commentscontent">
     <div className='entete'>
