@@ -135,18 +135,18 @@ function PostsCy() {
         headers:{'Content-Type': 'application/json'}
       })
       .then(resp=>resp.json())
-      .then(resp=>{setcomments(prevcomments => [...prevcomments, ...resp.results])
+      .then(resp=>{if (resp.previous)
+        {setcomments(prevcomments => [...prevcomments, ...resp.results])}
+        else
+        {setcomments(resp.results)}
        setnextc(resp.next)
       sethasmorec(!!resp.next)
     })
-      .catch(error=>console.log("ddd"))
+      
       
    }
  
-   useEffect(()=>
-    {
-      getcomments()
-    },[])
+   
     function getecomments()
     {
       fetch( enextc,{
@@ -154,18 +154,19 @@ function PostsCy() {
          headers:{'Content-Type': 'application/json'}
        })
        .then(resp=>resp.json())
-       .then(resp=>{setecomments(prevcomments => [...prevcomments, ...resp.results])
+       .then(resp=>{if (resp.previous)
+        {setecomments(prevcomments => [...prevcomments, ...resp.results])}
+        else
+        {setecomments(resp.results)}
         setenextc(resp.next)
        setehasmorec(!!resp.next)
+       console.log(resp)
      })
-       .catch(error=>console.log("ddd"))
+       
        
     }
   
-    useEffect(()=>
-     {
-       getecomments()
-     },[])
+    
  
 
   return (
@@ -218,7 +219,8 @@ function PostsCy() {
   const currentValue = bc[post.id];
   setnextc(`http://127.0.0.1:8000/api/comments/${post.id}/`)
   setenextc(`http://127.0.0.1:8000/api/expertComments/${post.id}/`)
-  setcomments([]);
+  
+  
   setecomments([])
   const newbc = {};
       for (const p of posts) {
@@ -253,8 +255,6 @@ function PostsCy() {
     <div className="commentscontent">
     <div className='entete'>
     <div className='user'><img src={require('./user1.png')} alt="" />
-    
-/*kkkkkkkkkkkkkkk*/
     <h4>Dali Mathlouthi</h4></div>
     <MoreVertIcon htmlColor='#424242'/>
     </div>
