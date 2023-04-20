@@ -261,7 +261,24 @@ function PostsCy() {
           
          
      }
-  
+     async function PutECommntSentiment(ecomment,sentiment){
+      await axios.patch(`http://127.0.0.1:8000/api/ExpertcommentDetail/${ecomment.id}/`, { "sentiment": sentiment });
+     }
+     async function PutCommntSentiment(comment,sentiment){
+      await axios.patch(`http://127.0.0.1:8000/api/commentDetail/${comment.id}/`, { "sentiment": sentiment });
+     }
+
+     function DeleteCommnt(comment){
+      axios.delete(`http://127.0.0.1:8000/api/commentDetail/${comment.id}/`)
+      .then(() => {
+        const updatedComments = comments.filter(p => p.id !== comment.id);
+       
+        setcomments(updatedComments);
+      }).catch(err => {
+        console.error(err);
+      });
+     }
+
     
  
 
@@ -320,7 +337,7 @@ function PostsCy() {
   setecomments([])
   const newbc = {};
       for (const p of posts) {
-        if(p.id!=post.id)
+        if(p.id!==post.id)
         newbc[p.id] =false;
         else
         newbc[p.id] =!currentValue;
@@ -356,21 +373,17 @@ function PostsCy() {
     <MoreVertIcon htmlColor='#424242'/>
     {true && (
           <ul className="dropdown-menu">
-            <li >
+            <li onClick={()=> PutECommntSentiment(ecomment,1)}>
             <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
              <span>Positive</span>
             </li>
-            <li >
+            <li onClick={()=> PutECommntSentiment(ecomment,0)}>
             <SentimentNeutralIcon   htmlColor='#FFD54F'/>
              <span>Neutre</span>
             </li>
-            <li >
+            <li onClick={()=> PutECommntSentiment(ecomment,-1)}>
             <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
               <span>Negative</span>
-            </li>
-            <li  >
-            <ClearIcon htmlColor='red'/>
-            <span>Supprimer</span> 
             </li>
           </ul>
         )}
@@ -399,19 +412,19 @@ function PostsCy() {
     {true && (
        <div className="dropdown">
           <ul className="dropdown-menu">
-            <li >
+            <li onClick={()=> PutCommntSentiment(comment,1)}>
             <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
              <span>Positive</span>
             </li>
-            <li >
+            <li onClick={()=> PutCommntSentiment(comment,0)}>
             <SentimentNeutralIcon   htmlColor='#FFD54F'/>
              <span>Neutre</span>
             </li>
-            <li >
+            <li onClick={()=> PutCommntSentiment(comment,-1)}>
             <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
               <span>Negative</span>
             </li>
-            <li  >
+            <li  onClick={()=> DeleteCommnt(comment)}>
             <ClearIcon htmlColor='red'/>
             <span>Supprimer</span> 
             </li>
