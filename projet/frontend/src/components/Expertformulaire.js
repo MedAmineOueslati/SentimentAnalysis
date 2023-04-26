@@ -1,4 +1,5 @@
 import React from 'react';
+import './Expertform.css'
 import TextField from '@mui/material/TextField';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
@@ -63,26 +64,23 @@ const [proprietaire,setproprietaire]=useState(data0);
    
 
   return (
-    <div>
-      <TextField
-        label="Title"
-        variant="outlined"
-        fullWidth
-        margin="normal"
+    <div className='bodycontainer'>
+      <div className='body'>
+      <input
+        placeholder="Title..."
+        type="text"
         value={title}
         onChange={(e)=>settitle(e.target.value)}
        
-      />
-      <TextField
-        label="Description"
-        variant="outlined"
-        fullWidth
-        margin="normal"
+      /><br></br>
+      <textarea 
+        placeholder="Description..."
+        
         value={description}
         onChange={(e)=>setdescription(e.target.value)}
        
-      />
-      <Input   
+      /><br></br>
+      <input   
         type="file"
         accept="image/*"
         fullWidth
@@ -90,11 +88,16 @@ const [proprietaire,setproprietaire]=useState(data0);
         
         onChange={(e)=>setim(e.target.files[0])}
         
-      />
+      /><br></br>
+      <div className='container'>
       <Button type="submit" variant="contained" color="primary" onClick={editarticle}>
         Submit
       </Button>
+      </div>
+      
     </div>
+    </div>
+    
   );
 };
 

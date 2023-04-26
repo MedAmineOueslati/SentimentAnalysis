@@ -141,7 +141,7 @@ function Posts() {
 
 
    <div>
-     <Share posts={Unvposts} updatepost={updateUnvpost}/>
+     
      <InfiniteScroll
   dataLength={Unvposts.length} 
   next={getUnverifiedData}

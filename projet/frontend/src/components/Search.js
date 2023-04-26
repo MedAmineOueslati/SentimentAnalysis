@@ -35,10 +35,10 @@ function Search() {
   
     const data = {
       proprietaire:item.proprietaire,
-      
       description: item.description,
       b: updatedB
     };
+  
      
     fetch(`http://127.0.0.1:8000/api/articles/${item.id}/`, {
       method: 'PUT',
