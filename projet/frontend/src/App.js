@@ -16,6 +16,10 @@ import Login from "./scenes/Login"
 import LoginPage from './pages/LoginPage'
 import SingupPage from './pages/SingupPage'
 import ProfilePage from './pages/ProfilePage'
+import App1 from './components/App1';
+import App2 from './components/PostsViewCy';
+import PostsCy from './components/Posts_Cy';
+import Expertform from './components/Expertformulaire';
 function App() {
   const[ theme ,colorMode]= useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -44,6 +48,9 @@ function App() {
               <Route element = {<LoginPage/>} path="/login"/>
               <Route element = {<SingupPage/>} path="/singup"/>
               <Route element = {<ProfilePage/>} path="/profil"/>
+              <Route element = {<App1/>} path="/App1"/>
+              <Route element = {<Expertform/>} path="/Expertform"/>
+              <Route element = {<App2/>} path="/PostsCy"/>
       
               
             </Routes>

@@ -30,7 +30,7 @@ class UserAccount(AbstractBaseUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'DateDeNaissance']
 
     def get_full_name(self):
-        return self.first_name
+        return self.first_name + " " + self.last_name
 
     def __str__(self):
         return self.email
@@ -66,3 +66,52 @@ class Expert(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name',
                        'DateDeNaissance', 'specialite']
+
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
+
+
+class Article (models.Model):
+    proprietaire = models.ForeignKey(Expert, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100, default='')
+    description = models.TextField()
+    im = models.FileField(null=True, blank=True, upload_to='public')
+    b = models.BooleanField(default=False)
+
+
+class Post (models.Model):
+    proprietaire = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    description = models.TextField()
+    im = models.FileField(null=True, blank=True, upload_to='public')
+    vd = models.FileField(null=True, blank=True, upload_to='public')
+    bv = models.BooleanField(default=False)
+
+
+class PostVerifie (models.Model):
+    proprietaire = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    description = models.TextField()
+    im = models.FileField(null=True, blank=True, upload_to='public')
+    vd = models.FileField(null=True, blank=True, upload_to='public')
+    bc = models.BooleanField(default=False)
+    sentiment = models.IntegerField(default=0)
+
+
+class PostSupp (models.Model):
+    proprietaire = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    description = models.TextField()
+    im = models.FileField(null=True, blank=True, upload_to='public')
+    vd = models.FileField(null=True, blank=True, upload_to='public')
+
+
+class Comment (models.Model):
+    idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
+    idUser = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    description = models.TextField()
+    sentiment = models.IntegerField(default=0, blank=True)
+
+
+class ExpertComment (models.Model):
+    idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
+    idExpert = models.ForeignKey(Expert, on_delete=models.CASCADE)
+    description = models.TextField()
+    sentiment = models.IntegerField(default=0, blank=True)
