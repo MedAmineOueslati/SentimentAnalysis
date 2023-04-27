@@ -1,11 +1,10 @@
 import React from 'react';
-import './App.css';
 import { useState } from "react";
 import { ColorModeContext,useMode } from './theme';
 import { CssBaseline,ThemeProvider } from '@mui/material';
 import { BrowserRouter as Router, Route , Routes} from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
-
+import './App.css';
 import Topbar from "./scenes/global/Topbar";
 import Dashboard from "./scenes/Dashbord";
 import Calendar from "./scenes/calender";
@@ -29,11 +28,11 @@ function App() {
     <ThemeProvider theme={theme}>
     <CssBaseline/>
     <div className="app">
-      
+    <AuthProvider>
       <Sidebar  isSidebar={isSidebar}/>
       < main className='content'>
       <Topbar setIsSidebar={setIsSidebar}/>
-      <AuthProvider>
+      
       <Routes>
               <Route path="/" element={<Dashboard />} />
               {/*<Route path="/team" element={<Team />} />
@@ -55,13 +54,14 @@ function App() {
       
               
             </Routes>
+            </main>
             </AuthProvider>
       
          
       
         
      
-    </main>
+    
     </div>
     </ThemeProvider>
     </ColorModeContext.Provider>
