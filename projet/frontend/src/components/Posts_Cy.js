@@ -11,6 +11,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 import AuthContext from '../context/AuthContext'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 
 function PostsCy() {
@@ -23,6 +24,8 @@ function PostsCy() {
   const [expname, setexpname] = useState({});
   const [nbcomments, setnbcomments] = useState({});
   const [bc, setbc] = useState({});
+  const [bce, setbce] = useState({});
+  const [bcc, setbcc] = useState({});
   const [comments,setcomments]=useState([])
   const [hasmorec,sethasmorec]=useState(true);
   const [nextc, setnextc] = useState('');
@@ -31,6 +34,27 @@ function PostsCy() {
   const [enextc, setenextc] = useState('');
   const [cdescription, setcdescription] = useState('');
   let {user} = useContext(AuthContext)
+
+  useEffect(() => {
+    async function getbce() {
+      const newbce = {};
+      for (const ecomment of ecomments) {
+        newbce[ecomment.id] = false;
+      }
+      setbce(newbce);
+    }
+    getbce();
+  }, [ecomments]);
+  useEffect(() => {
+    async function getbcc() {
+      const newbcc = {};
+      for (const comment of comments) {
+        newbcc[comment.id] = false;
+      }
+      setbcc(newbcc);
+    }
+    getbcc();
+  }, [ecomments]);
 
   useEffect(() => {
     async function getbc() {
@@ -262,13 +286,19 @@ function PostsCy() {
          
      }
      async function PutECommntSentiment(ecomment,sentiment){
+      const updatedbce = { ...bce, [ecomment.id]: !bce[ecomment.id] };
+  setbce(updatedbce);
       await axios.patch(`http://127.0.0.1:8000/api/ExpertcommentDetail/${ecomment.id}/`, { "sentiment": sentiment });
      }
      async function PutCommntSentiment(comment,sentiment){
+      const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
+  setbcc(updatedbcc);
       await axios.patch(`http://127.0.0.1:8000/api/commentDetail/${comment.id}/`, { "sentiment": sentiment });
      }
 
      function DeleteCommnt(comment){
+      const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
+  setbcc(updatedbcc);
       axios.delete(`http://127.0.0.1:8000/api/commentDetail/${comment.id}/`)
       .then(() => {
         const updatedComments = comments.filter(p => p.id !== comment.id);
@@ -368,10 +398,13 @@ function PostsCy() {
     <div className="commentscontent">
     <div className='entete'>
     <div className='user'><img src={require('./user1.png')} alt="" />
-    <h4>{expname[ecomment.id]}</h4></div>
+    <h4>{expname[ecomment.id]}</h4>
+    <CheckCircleIcon htmlColor='#2196F3'/></div>
+    
     <div className="dropdown">
-    <MoreVertIcon htmlColor='#424242'/>
-    {true && (
+    <MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbce = { ...bce, [ecomment.id]: !bce[ecomment.id] };
+  setbce(updatedbce);}}/>
+    {bce[ecomment.id] && (
           <ul className="dropdown-menu">
             <li onClick={()=> PutECommntSentiment(ecomment,1)}>
             <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
@@ -408,9 +441,11 @@ function PostsCy() {
     <div className='user'><img src={require('./user1.png')} alt="" />
 
     <h4>{cytname[comment.id]}</h4></div>
-    <MoreVertIcon htmlColor='#424242'/>
-    {true && (
-       <div className="dropdown">
+    <div className="dropdown">
+    <MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
+  setbcc(updatedbcc);}}/>
+    {bcc[comment.id] && (
+       
           <ul className="dropdown-menu">
             <li onClick={()=> PutCommntSentiment(comment,1)}>
             <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
@@ -429,8 +464,9 @@ function PostsCy() {
             <span>Supprimer</span> 
             </li>
           </ul>
-        </div>
+        
         )}
+        </div>
         
     </div>
     <p>{comment.description}</p>
