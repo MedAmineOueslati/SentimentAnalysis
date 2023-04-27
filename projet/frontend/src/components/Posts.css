@@ -16,7 +16,7 @@
 }
       
 
-.user img {
+.post .user img {
     height: 40px;
     width: 40px;
    
@@ -33,7 +33,7 @@ h3.name {
     font-family: system-ui;
     font-size: large;
 }
-.content img {
+.post .content img {
     width: 95%;
     max-height: 350px;
     object-fit: cover;
