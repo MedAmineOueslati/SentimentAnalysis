@@ -402,8 +402,8 @@ function PostsCy() {
     <CheckCircleIcon htmlColor='#2196F3'/></div>
     
     <div className="dropdown">
-    <MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbce = { ...bce, [ecomment.id]: !bce[ecomment.id] };
-  setbce(updatedbce);}}/>
+    {user.isExpert&&(<MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbce = { ...bce, [ecomment.id]: !bce[ecomment.id] };
+  setbce(updatedbce);}}/>)}
     {bce[ecomment.id] && (
           <ul className="dropdown-menu">
             <li onClick={()=> PutECommntSentiment(ecomment,1)}>
@@ -442,8 +442,8 @@ function PostsCy() {
 
     <h4>{cytname[comment.id]}</h4></div>
     <div className="dropdown">
-    <MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
-  setbcc(updatedbcc);}}/>
+    {user.isExpert&&(<MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
+  setbcc(updatedbcc);}}/>)}
     {bcc[comment.id] && (
        
           <ul className="dropdown-menu">

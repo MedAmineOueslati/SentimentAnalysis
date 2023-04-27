@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -18,9 +18,15 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import AuthContext from '../../context/AuthContext';
+
+
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  let {user} = useContext(AuthContext)
   return (
     <MenuItem
       active={selected === title}
@@ -124,13 +130,7 @@ const Sidebar = () => {
             >
               Pages
             </Typography>
-            <Item
-              title="Expert Form"
-              to="/form"
-              icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            
             <Item
               title="Calendar"
               to="/calendar"
@@ -140,11 +140,19 @@ const Sidebar = () => {
             />
             <Item
               title="FAQ Page"
-              to="/faq"
+              to="/PostsCy"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
+            <Item
+              title="Notification"
+              to="/App1"
+              icon={ <NotificationsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            
 
             <Typography
               variant="h6"
