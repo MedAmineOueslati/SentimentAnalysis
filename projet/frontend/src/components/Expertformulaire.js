@@ -40,7 +40,7 @@ const [proprietaire,setproprietaire]=useState(data0);
       ).then(resp=>{console.log(resp) 
         }).catch(err=>console.log(err))
        
-        navigate('/App1') 
+        navigate('/Search') 
         window.location.reload()
    }
    
@@ -57,7 +57,7 @@ const [proprietaire,setproprietaire]=useState(data0);
       ).then(resp=>{console.log(resp) 
         }).catch(err=>console.log(err))
        
-        navigate('/App1') 
+        navigate('/Search') 
         window.location.reload() 
       
    }
@@ -90,7 +90,11 @@ const [proprietaire,setproprietaire]=useState(data0);
         
       /><br></br>
       <div className='container'>
-      <Button type="submit" variant="contained" color="primary" onClick={editarticle}>
+      <Button type="submit" variant="contained" color="primary" onClick={()=>{
+        if(data0)
+        editarticle()
+        else
+        addarticle()}}>
         Submit
       </Button>
       </div>

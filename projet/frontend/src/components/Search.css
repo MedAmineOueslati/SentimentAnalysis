@@ -1,11 +1,6 @@
 .Search {
-    margin: 350px;
-    width: 350px;
-    flex-shrink: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    margin-left: 300px;
+   
 }
 input[type="search"] {
     height: 38px;
@@ -66,4 +61,67 @@ input[type="search"] {
 
 .Expertform {
     display: none;
+}
+
+.container1{
+    display: flex;
+    margin-left: 310px;
+    margin-right: 50px;
+}
+.content {
+    height:auto;
+    padding: 8px;
+    width: 100%;
+    font-family: "Source Sans Pro", sans-serif;
+}
+button {
+    color: #1E88E5;
+    font-weight: 700;
+}
+h3 {
+    margin: 0px;
+    font-family: system-ui;
+    font-size: 20px;
+}
+img.MuiCardMedia-root.MuiCardMedia-media.MuiCardMedia-img.css-o69gx8-MuiCardMedia-root {
+    height: 140px;
+}
+.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation1.MuiCard-root.css-1qr0z6b-MuiPaper-root-MuiCard-root {
+    margin: 20px 30px;
+    height: auto;
+    width: 300px;
+}
+.MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
+    justify-content: space-between;
+    padding: 2px 10px;
+}
+.container2 {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: auto auto;
+    gap: 1px;
+}
+
+.box:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+  }
+  
+  .box:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+  }
+  
+  .box:nth-child(3) {
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+  }
+  .scroll {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.scroll svg {
+    height: 35px;
+    width: 35px;
 }

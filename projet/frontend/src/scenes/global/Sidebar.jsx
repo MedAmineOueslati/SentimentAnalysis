@@ -18,6 +18,7 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import ArticleIcon from '@mui/icons-material/Article';
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AuthContext from '../../context/AuthContext';
 
@@ -187,6 +188,14 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />)}
+
+<Item
+              title="Articles "
+              to="/Search"
+              icon={<ArticleIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
             
 
             <Typography

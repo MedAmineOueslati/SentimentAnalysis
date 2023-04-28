@@ -17,6 +17,7 @@ import LoginPage from './pages/LoginPage'
 import SingupPage from './pages/SingupPage'
 import ProfilePage from './pages/ProfilePage'
 import App1 from './components/App1';
+import Search from './components/Search';
 import App2 from './components/PostsViewCy';
 import PostsCy from './components/Posts_Cy';
 import Expertform from './components/Expertformulaire';
@@ -51,6 +52,7 @@ function App() {
               <Route element = {<App1/>} path="/App1"/>
               <Route element = {<Expertform/>} path="/Expertform"/>
               <Route element = {<App2/>} path="/PostsCy"/>
+              <Route element = {< Search/>} path="/Search"/>
       
               
             </Routes>
