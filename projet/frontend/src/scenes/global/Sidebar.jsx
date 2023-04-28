@@ -1,4 +1,4 @@
-import { useState,useContext } from "react";
+import { useState,useContext,useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -26,7 +26,7 @@ import AuthContext from '../../context/AuthContext';
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  let {user} = useContext(AuthContext)
+  
   return (
     <MenuItem
       active={selected === title}
@@ -47,8 +47,41 @@ const Sidebar = () => {
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+  const [nb,setnb]=useState(0);
+  const [col,setcol]=useState("black");
+  let {user} = useContext(AuthContext)
+  
 
+  async function Nbnotif() {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/NomreDePostAverf/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+      const data = await response.json();
+     
+      setnb(data.Nb)
+      
+    } catch (error) {
+      console.log(error);
+    }}
+    useEffect(()=>
+    {
+      Nbnotif()
+    },[])
+    useEffect(()=>
+    {
+     if(nb)
+     setcol('red')
+     else
+     setcol('black')
+    },[nb])
+  console.log(nb)
   return (
+    
     <Box
       sx={{
         "& .pro-sidebar-inner": {
@@ -131,27 +164,29 @@ const Sidebar = () => {
               Pages
             </Typography>
             
-            <Item
+            {!user.isExpert&&(<Item
               title="Calendar"
               to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            />)}
             <Item
               title="FAQ Page"
               to="/PostsCy"
+              htmlColor={col}
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Notification"
+            {user.isExpert&&(<Item
+              title={<span className="item-title" style={{ color:col }}>{`Notification  ${nb}`}</span>}
+              htmlcolor='red'
               to="/App1"
-              icon={ <NotificationsOutlinedIcon />}
+              icon={ <NotificationsOutlinedIcon htmlColor={col}/>}
               selected={selected}
               setSelected={setSelected}
-            />
+            />)}
             
 
             <Typography
