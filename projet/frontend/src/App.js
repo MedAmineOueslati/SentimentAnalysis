@@ -11,13 +11,16 @@ import Calendar from "./scenes/calender";
 import HomePage from './pages/HomePage'
 import Header from './components/Header'
 import Sidebar from './scenes/global/Sidebar'
-import Profil from"./scenes/Profil"
-import Login from "./scenes/Login"
 import LoginPage from './pages/LoginPage'
 import SingupPage from './pages/SingupPage'
 import ProfilePage from './pages/ProfilePage'
 import App1 from './components/App1';
 import App2 from './components/PostsViewCy';
+import Pie from './scenes/Pie'
+import Geography from './scenes/Geography'
+import Line from './scenes/line'
+import Area from './scenes/area'
+
 import PostsCy from './components/Posts_Cy';
 import Expertform from './components/Expertformulaire';
 function App() {
@@ -35,14 +38,11 @@ function App() {
       <AuthProvider>
       <Routes>
               <Route path="/" element={<Dashboard />} />
-              {/*<Route path="/team" element={<Team />} />
+              {/*
               <Route path="/contacts" element={<Contacts />} />
-              <Route path="/invoices" element={<Invoices />} />
+              
               <Route path="/form" element={<Form />} />
-              <Route path="/bar" element={<Bar />} />
-              <Route path="/pie" element={<Pie />} />
-              <Route path="/line" element={<Line />} />
-              <Route path="/geography" element={<Geography />} />
+              
               <Route path="/faq" element={<FAQ />} />*/}
               <Route path="/calendar" element={<Calendar />} />
               <Route element = {<LoginPage/>} path="/login"/>
@@ -51,8 +51,11 @@ function App() {
               <Route element = {<App1/>} path="/App1"/>
               <Route element = {<Expertform/>} path="/Expertform"/>
               <Route element = {<App2/>} path="/PostsCy"/>
-      
-              
+              <Route path="/pie" element={<Pie />} />
+              <Route path="/geography" element={<Geography />} />
+              <Route path="/line" element={<Line />} />
+              <Route path="/area" element={<Area />} />
+
             </Routes>
             </AuthProvider>
       

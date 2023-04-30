@@ -11,7 +11,7 @@ import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
+import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
@@ -103,7 +103,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
             >
               Data
             </Typography>
@@ -120,7 +120,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
             >
               Pages
             </Typography>
@@ -149,14 +149,14 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
             >
               Charts
             </Typography>
             <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
+              title="Area Chart"
+              to="/area"
+              icon={<StackedLineChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
@@ -181,8 +181,15 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-          </Box>
-          <Box sx={{ m: "40px 0 5px 30px" }}>
+         
+          
+          <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
+            >
+              Personal
+            </Typography>
           <Item
               title="LogIn"
               to="/login"
