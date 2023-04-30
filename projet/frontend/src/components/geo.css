@@ -1,0 +1,20 @@
+
+#map-66158 .map-tooltip{
+	background-color: #FFF;
+	border: 1px solid #333;
+	min-height: 40px;
+	min-width: 100px;
+	z-index: 1;
+	visibility: hidden;
+}
+#map-66158.map-legend-scale{
+	background: red;
+}
+#map-66158 [data-key]{
+	cursor: pointer;
+	stroke: white;
+	stroke-width:1px;
+}
+#map-66158 .gouvernorat{
+			fill: #AAA;
+}

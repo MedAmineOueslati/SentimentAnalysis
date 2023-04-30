@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Header from "../../components/HeaderC";
-import GeoChart from "../../components/GeoChart";
+import GeoChat from "../../components/GeoChart";
 
 const Geo = () => {
   
@@ -10,7 +10,7 @@ const Geo = () => {
     
       <Header title="GeoChart" subtitle="Simple GeoChart" />
       <Box height="75vh">
-          <GeoChart/>
+          <GeoChat/>
       </Box>
     </Box>
   );

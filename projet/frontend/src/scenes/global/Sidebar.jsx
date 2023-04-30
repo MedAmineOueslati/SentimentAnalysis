@@ -43,7 +43,7 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
 
   return (
-    <Box
+    <Box height= "100vh"
       sx={{
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
@@ -69,7 +69,7 @@ const Sidebar = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 20px 0",
+              margin: "30px 10px 20px 10px",
               color: colors.grey[100],
             
             }}
@@ -79,7 +79,7 @@ const Sidebar = () => {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
-                ml="10%"
+                ml="20%"
               >
                 
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
@@ -91,7 +91,7 @@ const Sidebar = () => {
 
           
 
-          <Box     paddingLeft={isCollapsed ? undefined : "10%"}>
+          <Box     paddingLeft={isCollapsed ? undefined : "17%"}>
             <Item
               title="Dashboard"
               to="/"
@@ -109,8 +109,8 @@ const Sidebar = () => {
             </Typography>
             
             <Item
-              title="Contacts "
-              to="/contacts"
+              title="Comment "
+              to="/Comment"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -126,7 +126,7 @@ const Sidebar = () => {
             </Typography>
             <Item
               title="Expert Form"
-              to="/form"
+              to="/expert"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -194,6 +194,13 @@ const Sidebar = () => {
               title="LogIn"
               to="/login"
               icon={<LoginOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Info"
+              to="/profil"
+              icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
