@@ -13,7 +13,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import Header from "../../components/Header";
+import Header from "../../components/HeaderC";
 import { tokens } from "../../theme";
 const Calendar =() =>{
     const theme = useTheme();
@@ -48,7 +48,7 @@ const Calendar =() =>{
   
     return (
       <Box m="20px">
-        <Header title="Calendar" subtitle="Full Calendar Interactive Page" />
+        <Header title="Calendar" subtitle="COVID messing with your memory? Stay on top of your appointments and vaccinations with this COVID calendar!" />
   
         <Box display="flex" justifyContent="space-between">
           {/* CALENDAR SIDEBAR */}

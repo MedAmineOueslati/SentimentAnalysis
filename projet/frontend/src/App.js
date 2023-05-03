@@ -11,16 +11,19 @@ import Calendar from "./scenes/calender";
 import HomePage from './pages/HomePage'
 import Header from './components/Header'
 import Sidebar from './scenes/global/Sidebar'
-import Profil from"./scenes/Profil"
-import Login from "./scenes/Login"
 import LoginPage from './pages/LoginPage'
 import SingupPage from './pages/SingupPage'
 import ProfilePage from './pages/ProfilePage'
 import App1 from './components/App1';
 import Search from './components/Search';
 import App2 from './components/PostsViewCy';
-import PostsCy from './components/Posts_Cy';
 import Expertform from './components/Expertformulaire';
+import Pie from './scenes/Pie'
+import Geo from './scenes/Geography'
+import Line from './scenes/line'
+import Area from './scenes/area'
+import Comment from './scenes/comments'
+import PostsCy from './components/Posts_Cy';
 function App() {
   const[ theme ,colorMode]= useMode();
   const [isSidebar, setIsSidebar] = useState(true);
@@ -35,7 +38,7 @@ function App() {
       <Topbar setIsSidebar={setIsSidebar}/>
       
       <Routes>
-              <Route path="/" element={<Dashboard />} />
+              
               {/*<Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/invoices" element={<Invoices />} />
@@ -53,8 +56,12 @@ function App() {
               <Route element = {<Expertform/>} path="/Expertform"/>
               <Route element = {<App2/>} path="/PostsCy"/>
               <Route element = {< Search/>} path="/Search"/>
-      
-              
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/pie" element={<Pie />} />
+              <Route path="/geography" element={<Geo />} />
+              <Route path="/line" element={<Line />} />
+              <Route path="/Comment" element={<Comment />} />
+              <Route path="/area" element={<Area />} />
             </Routes>
             </main>
             </AuthProvider>

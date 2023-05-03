@@ -21,6 +21,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ArticleIcon from '@mui/icons-material/Article';
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AuthContext from '../../context/AuthContext';
+import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
 
 
 
@@ -83,7 +84,7 @@ const Sidebar = () => {
   console.log(nb)
   return (
     
-    <Box
+    <Box height= "100vh"
       sx={{
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
@@ -143,24 +144,23 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 5px 20px" , fontWeight: 'bold', fontSize: '1.2rem'  }}
             >
               Data
             </Typography>
             
             <Item
-              title="Contacts "
-              to="/contacts"
+              title="Comment "
+              to="/Comment"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-           
 
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem'  }}
             >
               Pages
             </Typography>
@@ -201,16 +201,16 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "15px 0 5px 20px" , fontWeight: 'bold', fontSize: '1.2rem'  }}
             >
               Charts
             </Typography>
             <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
+             title="Area Chart"
+             to="/area"
+             icon={<StackedLineChartOutlinedIcon />}
+             selected={selected}
+             setSelected={setSelected}
             />
             <Item
               title="Pie Chart"
@@ -233,12 +233,24 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-          </Box>
-          <Box sx={{ m: "40px 0 5px 30px" }}>
+            <Typography
+              variant="h6"
+              color={colors.grey[300]}
+              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
+            >
+              Personal
+            </Typography>
           <Item
               title="LogIn"
               to="/login"
               icon={<LoginOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Info"
+              to="/profil"
+              icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
