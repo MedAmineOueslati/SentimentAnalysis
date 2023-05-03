@@ -154,7 +154,7 @@ function Search() {
         </Typography>)}
       </div>
       <CardActions>
-        <Button size="small" onClick={()=>
+        <Button htmlcolor='red' size="small" onClick={()=>
           { setb(!item.b)
             settitle(item.title)
             setdescription(item.description)
