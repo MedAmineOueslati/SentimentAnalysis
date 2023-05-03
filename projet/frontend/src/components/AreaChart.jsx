@@ -5,8 +5,7 @@ const AreaChart = () => {
   return ( <React.Fragment>
     <Chart 
     
-    width={800}
-    height={450}
+    height={600}
     series={[ 
 
 {

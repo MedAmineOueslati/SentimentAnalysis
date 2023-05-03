@@ -99,23 +99,23 @@ function Share(props) {
        <div className="bottom">
        <div className="option">
        <div className="op">
-       <ImageIcon htmlColor='tomato' className="icon" onClick={()=>imageref.current.click()}/>
-          <span style={{color:"tomato"}}>Photo</span>
+       <ImageIcon htmlColor='crimson' className="icon" onClick={()=>imageref.current.click()}/>
+          <span style={{color:"crimson"}}>Photo</span>
        </div>
        <div className="op" >
-       <VideoCameraBackIcon htmlColor='blue' className="icon" onClick={()=>videoref.current.click()}/>
-          <span style={{color:"blue"}}>video</span>
+       <VideoCameraBackIcon htmlColor='navy' className="icon" onClick={()=>videoref.current.click()}/>
+          <span style={{color:"navy"}}>video</span>
        </div>
        <div className="op">
-       <EmojiEmotionsIcon htmlColor='goldenrod' className="icon"onClick={()=>setshow(val=>!val)}/>
-          <span style={{color:"goldenrod"}} >emoji</span>
+       <EmojiEmotionsIcon htmlColor='mustard' className="icon"onClick={()=>setshow(val=>!val)}/>
+          <span style={{color:"mustard"}} >emoji</span>
        </div>
       
        </div>
        <div className="btn">
       
       <input type="submit" value="share" onClick={addpost}></input>
-      <div style={{display:"none"}}>
+      <div style={{display:"none" , color:"#0077c2"}}>
       <input type="file" ref={imageref} onChange={changeimage}/>
     </div>
     <div style={{display:"none"}}>

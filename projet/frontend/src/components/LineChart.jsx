@@ -11,8 +11,7 @@ const LineChart = () => {
   return ( <React.Fragment>
     <Chart 
     type="line"
-    width={800}
-    height={450}
+    height={600}
     series={[ {name: "Nomber of vaccin per month",
     data: [
         {x: "2021-07-31", y: 500000},

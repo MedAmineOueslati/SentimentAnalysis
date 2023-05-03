@@ -4,21 +4,17 @@ import { Box } from "@mui/material";
 const Areadash = () => {
     const [width, setWidth] = React.useState(window.innerWidth);
 
-    React.useEffect(() => {
-      const handleResize = () => setWidth(window.innerWidth);
-      window.addEventListener("resize", handleResize);
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
+   
   
   return (
     
     
-    <Box height="75vh">
+    
     <React.Fragment>
     <Chart 
     
-    width={width > 768 ? 520 : "100%"}
-    height={width > 768 ? 260 : 400}
+    height={310}
+    width={420}
     series={[ 
 
 {
@@ -101,7 +97,7 @@ options={{
   
   > </Chart>
   </React.Fragment>
-  </Box>
+  
   );
 };
 export default Areadash;

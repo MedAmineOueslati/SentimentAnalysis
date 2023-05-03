@@ -10,8 +10,7 @@ const PieChart = () => {
   return ( <React.Fragment>
     <Chart 
     type="pie"
-    width={800}
-    height={450}
+    height={700}
     series={[4502,4666]}
     options={{
      
