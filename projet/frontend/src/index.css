@@ -2,6 +2,7 @@
 .content {
   height: 100%;
   width: 100%;
+  margin-left: 300px;
   font-family: "Source Sans Pro", sans-serif;
 }
 
@@ -27,5 +28,8 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+.MuiBox-root.css-149c9eu {
+  position: fixed;
 }
 

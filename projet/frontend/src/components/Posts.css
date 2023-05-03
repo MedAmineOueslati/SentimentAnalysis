@@ -22,7 +22,7 @@
   width: 40px;
  
 }
-.content p {
+.content3 p {
   font-size: 14px;
   font-family: system-ui;
   word-break: break-word;
@@ -34,7 +34,7 @@ h3.name {
   font-family: system-ui;
   font-size: large;
 }
-.post .content img {
+.post .content3 img {
   width: 95%;
   max-height: 350px;
   object-fit: cover;
@@ -42,7 +42,7 @@ h3.name {
   border-radius: 5px;
 }
 
-.content video {
+.content3 video {
 width: 95%;
 max-height: 350px;
 object-fit: cover;

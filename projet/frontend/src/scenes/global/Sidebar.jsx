@@ -110,7 +110,7 @@ const Sidebar = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 20px 0",
+              margin: "10px 0 10px 0",
               color: colors.grey[100],
             
             }}
@@ -144,7 +144,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" , fontWeight: 'bold', fontSize: '1.2rem'  }}
+              sx={{ m: "5px 0 5px 20px" , fontWeight: 'bold', fontSize: '1.2rem'  }}
             >
               Data
             </Typography>
@@ -160,7 +160,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem'  }}
+              sx={{ m: "5px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem'  }}
             >
               Pages
             </Typography>
@@ -201,7 +201,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" , fontWeight: 'bold', fontSize: '1.2rem'  }}
+              sx={{ m: "5px 0 5px 20px" , fontWeight: 'bold', fontSize: '1.2rem'  }}
             >
               Charts
             </Typography>
@@ -236,7 +236,7 @@ const Sidebar = () => {
             <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
+              sx={{ m: "5px 0 5px 20px", fontWeight: 'bold', fontSize: '1.2rem' }}
             >
               Personal
             </Typography>

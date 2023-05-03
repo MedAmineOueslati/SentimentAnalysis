@@ -341,7 +341,7 @@ function PostsCy() {
         
 
     </div>
-    <div className="content">
+    <div className="content3">
       <p>{post.description}</p>
       {
         post.im&&(

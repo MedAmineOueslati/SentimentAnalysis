@@ -123,7 +123,16 @@ function Search() {
   return (
     
     <div className="Search">
-        
+        <div className='bton'>
+        { user.isExpert&& (<Button
+variant="contained"
+color="primary"
+startIcon={<AddIcon />}
+onClick={handleAddClick}
+>
+Add article
+</Button>)}
+        </div>
         <div className='container2'>
          {articles.filter((item)=>{
         return qestion.toLocaleLowerCase()===''
@@ -140,7 +149,7 @@ function Search() {
         height="140"
         image={item.im}
       />
-      <div className='content'>
+      <div className='content0'>
         <h3>{item.title} </h3>
         {!item.b&&(<Typography variant="body2" color="text.secondary">
         {(() => {

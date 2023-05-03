@@ -35,7 +35,7 @@ function App() {
     <AuthProvider>
       <Sidebar  isSidebar={isSidebar}/>
       < main className='content'>
-      <Topbar setIsSidebar={setIsSidebar}/>
+      
       
       <Routes>
               

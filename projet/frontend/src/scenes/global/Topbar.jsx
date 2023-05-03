@@ -36,14 +36,7 @@ const Topbar = () => {
         backgroundColor={colors.primary[400]}
         borderRadius="3px"
       >
-      { user.isExpert&& (<Button
-variant="contained"
-color="primary"
-startIcon={<AddIcon />}
-onClick={handleAddClick}
->
-Add article
-</Button>)}
+      
       </Box>
 
       {/* ICONS */}

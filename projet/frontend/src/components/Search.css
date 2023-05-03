@@ -65,7 +65,7 @@ input[type="search"] {
     margin-left: 310px;
     margin-right: 50px;
 }
-.content {
+.content0 {
     height:auto;
     padding: 8px;
     width: 100%;
@@ -121,4 +121,9 @@ img.MuiCardMedia-root.MuiCardMedia-media.MuiCardMedia-img.css-o69gx8-MuiCardMedi
 .scroll svg {
     height: 35px;
     width: 35px;
+}
+.bton {
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px 30px;
 }
