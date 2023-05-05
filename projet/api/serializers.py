@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article, Comment, Expert, ExpertComment, PostSupp, PostVerifie, UserAccount, Post
+from .models import Article, Comment, Expert, ExpertComment, PostSupp, PostVerifie, UserAccount, Post, reaction
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -44,10 +44,16 @@ class PostVerifieSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostVerifie
         fields = ("proprietaire", "description",
-                  "im", "vd", "bc", "id", "sentiment")
+                  "im", "vd", "bc", "id",)
 
 
 class PostSuppSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostSupp
         fields = ("proprietaire", "description", "im", "vd", "id")
+
+
+class reactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = reaction
+        fields = ("idcit", "idPost", "isLike",)

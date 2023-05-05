@@ -93,7 +93,12 @@ class PostVerifie (models.Model):
     im = models.FileField(null=True, blank=True, upload_to='public')
     vd = models.FileField(null=True, blank=True, upload_to='public')
     bc = models.BooleanField(default=False)
-    sentiment = models.IntegerField(default=0)
+
+
+class reaction(models.Model):
+    idcit = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
+    idPost = models.ForeignKey(PostVerifie, on_delete=models.CASCADE)
+    isLike = models.BooleanField()
 
 
 class PostSupp (models.Model):

@@ -5,11 +5,11 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 
 
-from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer
+from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer, reactionSerializer
 from .serializers import ExpertSerializer, PostSerializer, PostSuppSerializer, PostVerifieSerializer, UserAccountSerializer
 from .forms import SignupForm
 
-from .models import Comment, ExpertComment, PostSupp, PostVerifie, UserAccount, Article
+from .models import Comment, ExpertComment, PostSupp, PostVerifie, UserAccount, Article, reaction
 from .models import Post, Expert
 
 
@@ -131,6 +131,14 @@ def getNomreDePostAverf(request):
     return Response({"Nb": NbP}, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+def getNomreDeLikeEtDislike(request):
+    queryset = reaction.objects.filter(idPost=request.data.get("idPost"))
+    nbL = queryset.filter(isLike=True).count()
+    nbDL = queryset.filter(isLike=False).count()
+    return Response({"NbL": nbL, "NbDL": nbDL}, status=status.HTTP_200_OK)
+
+
 class postViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -175,3 +183,8 @@ class commentDetail(viewsets.ModelViewSet):
 class ExpertcommentDetail(viewsets.ModelViewSet):
     queryset = ExpertComment.objects.all()
     serializer_class = ExpertCommentSerializer
+
+
+class reactionDetail(viewsets.ModelViewSet):
+    queryset = reaction.objects.all()
+    serializer_class = reactionSerializer
