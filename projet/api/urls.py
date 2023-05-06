@@ -1,6 +1,6 @@
 from django.urls import include, path
 from . import views
-from .views import ExpertcommentDetail, Login, NombreDeCommentaire, PostSuppViewSet, PostVerifieViewSet, Signup, commentDetail, getCommenterFullName, getNomreDeLikeEtDislike, getNomreDePostAverf, getUserFullNameVer, reactionDetail
+from .views import ExpertcommentDetail, Login, NombreDeCommentaire, PostSuppViewSet, PostVerifieViewSet, Signup, commentDetail, getCommenterFullName, getNomreDeLikeEtDislike, getNomreDePostAverf, getUserFullNameVer, getisReacted, reactionDetail
 from .views import articleViewSet, commentViewSet, expertcommentViewSet, getExpertFullName, getUserFullName, postViewSet
 from django.conf import settings
 from rest_framework.routers import DefaultRouter
@@ -36,6 +36,6 @@ urlpatterns = [
          expertcommentViewSet.as_view({'get': 'list'}), name='comment-detail'),
     path('NomreDeLikeEtDislike/', getNomreDeLikeEtDislike,
          name='NomreDeLikeEtDislike'),
-
+    path('isReacted/', getisReacted, name='isReacted'),
 
 ]

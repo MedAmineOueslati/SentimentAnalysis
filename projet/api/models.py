@@ -120,6 +120,3 @@ class ExpertComment (models.Model):
     idExpert = models.ForeignKey(Expert, on_delete=models.CASCADE)
     description = models.TextField()
     sentiment = models.IntegerField(default=0, blank=True)
-
-
-# hhhhhhhhhh

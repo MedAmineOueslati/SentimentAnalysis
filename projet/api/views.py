@@ -139,6 +139,19 @@ def getNomreDeLikeEtDislike(request):
     return Response({"NbL": nbL, "NbDL": nbDL}, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def getisReacted(request):
+    try:
+        react = reaction.objects.filter(idcit=request.data.get(
+            "idcit")).get(idPost=request.data.get("idPost"))
+        if (react.isLike):
+            return Response({"reaction": 1}, status=status.HTTP_200_OK)
+        else:
+            return Response({"reaction": -1}, status=status.HTTP_200_OK)
+    except reaction.DoesNotExist:
+        return Response({"reaction": 0}, status=status.HTTP_200_OK)
+
+
 class postViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
