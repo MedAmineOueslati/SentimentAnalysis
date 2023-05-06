@@ -5,11 +5,11 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 
 
-from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer
+from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer, reactionSerializer
 from .serializers import ExpertSerializer, PostSerializer, PostSuppSerializer, PostVerifieSerializer, UserAccountSerializer
 from .forms import SignupForm
 
-from .models import Comment, ExpertComment, PostSupp, PostVerifie, UserAccount, Article
+from .models import Comment, ExpertComment, PostSupp, PostVerifie, UserAccount, Article, reaction
 from .models import Post, Expert
 
 
@@ -131,13 +131,21 @@ def getNomreDePostAverf(request):
     return Response({"Nb": NbP}, status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+def getNomreDeLikeEtDislike(request):
+    queryset = reaction.objects.filter(idPost=request.data.get("idPost"))
+    nbL = queryset.filter(isLike=True).count()
+    nbDL = queryset.filter(isLike=False).count()
+    return Response({"NbL": nbL, "NbDL": nbDL}, status=status.HTTP_200_OK)
+
+
 class postViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all().order_by('id').reverse()
+    queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
 class articleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all().order_by('id').reverse()
+    queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
 
@@ -146,7 +154,7 @@ class commentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Comment.objects.filter(idPost=self.kwargs['idPost'])
-        return queryset.order_by('id').reverse()
+        return queryset
 
 
 class expertcommentViewSet(viewsets.ModelViewSet):
@@ -154,24 +162,29 @@ class expertcommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = ExpertComment.objects.filter(idPost=self.kwargs['idPost'])
-        return queryset.order_by('id').reverse()
+        return queryset
 
 
 class PostVerifieViewSet(viewsets.ModelViewSet):
-    queryset = PostVerifie.objects.all().order_by('id').reverse()
+    queryset = PostVerifie.objects.all()
     serializer_class = PostVerifieSerializer
 
 
 class PostSuppViewSet(viewsets.ModelViewSet):
-    queryset = PostSupp.objects.all().order_by('id').reverse()
+    queryset = PostSupp.objects.all()
     serializer_class = PostSuppSerializer
 
 
 class commentDetail(viewsets.ModelViewSet):
-    queryset = Comment.objects.all().order_by('id').reverse()
+    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
 
 class ExpertcommentDetail(viewsets.ModelViewSet):
-    queryset = ExpertComment.objects.all().order_by('id').reverse()
+    queryset = ExpertComment.objects.all()
     serializer_class = ExpertCommentSerializer
+
+
+class reactionDetail(viewsets.ModelViewSet):
+    queryset = reaction.objects.all()
+    serializer_class = reactionSerializer

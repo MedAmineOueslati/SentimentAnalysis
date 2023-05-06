@@ -1,6 +1,6 @@
 from django.urls import include, path
 from . import views
-from .views import ExpertcommentDetail, Login, NombreDeCommentaire, PostSuppViewSet, PostVerifieViewSet, Signup, commentDetail, getCommenterFullName, getNomreDePostAverf, getUserFullNameVer
+from .views import ExpertcommentDetail, Login, NombreDeCommentaire, PostSuppViewSet, PostVerifieViewSet, Signup, commentDetail, getCommenterFullName, getNomreDeLikeEtDislike, getNomreDePostAverf, getUserFullNameVer, reactionDetail
 from .views import articleViewSet, commentViewSet, expertcommentViewSet, getExpertFullName, getUserFullName, postViewSet
 from django.conf import settings
 from rest_framework.routers import DefaultRouter
@@ -17,6 +17,7 @@ router.register('PostSupp', PostSuppViewSet, basename='PostSupp')
 router.register('commentDetail', commentDetail, basename='commentDetail')
 router.register('ExpertcommentDetail', ExpertcommentDetail,
                 basename='ExpertcommentDetail')
+router.register('reaction', reactionDetail, basename='reaction')
 
 urlpatterns = [
     path('', views.getRoutes),
@@ -33,6 +34,8 @@ urlpatterns = [
          commentViewSet.as_view({'get': 'list'}), name='comment-detail'),
     path('expertComments/<int:idPost>/',
          expertcommentViewSet.as_view({'get': 'list'}), name='comment-detail'),
+    path('NomreDeLikeEtDislike/', getNomreDeLikeEtDislike,
+         name='NomreDeLikeEtDislike'),
 
 
 ]
