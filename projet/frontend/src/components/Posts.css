@@ -189,3 +189,34 @@ margin: 10px;
   width: 23px;
   color: #1E88E5;
 }
+.reaction {
+  display: flex;
+  margin-right: 50px;
+}
+.likes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+.deslikes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.reaction svg {
+  height: 40px;
+  width: 30px;
+   color: #3799e0;;
+}
+.reaction svg:hover{
+  transform: scale(1.5);
+}
+.reaction span {
+  margin-left: 7px;
+  font-size: 13px;
+}
+.trait {
+  background-color: #9E9E9E;
+  height: 1px;
+}

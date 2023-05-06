@@ -12,6 +12,10 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 import AuthContext from '../context/AuthContext'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 
 function PostsCy() {
@@ -33,6 +37,11 @@ function PostsCy() {
   const [ehasmorec,setehasmorec]=useState(true);
   const [enextc, setenextc] = useState('');
   const [cdescription, setcdescription] = useState('');
+  const [likedup,setlikedup]=useState(true);
+  const [likeddown,setlikeddown]=useState(true);
+  const [nblikes, setnblikes] = useState({});
+  const [nbdeslikes, setnbdeslikes] = useState({});
+  
   let {user} = useContext(AuthContext)
 
   useEffect(() => {
@@ -95,6 +104,7 @@ function PostsCy() {
     }
     getnbcomments();
   }, [posts]);
+
   
 
   
@@ -309,7 +319,87 @@ function PostsCy() {
       });
      }
 
+    async function Nblikes(id){
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/NomreDeLikeEtDislike/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idPost: id }),
+      });
+      const data = await response.json();
+     
+      return(data.NbL)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    async function getnblikes() {
+      const newnblikes = {};
+      for (const post of posts) {
+        const nbc = await Nblikes(post.id);
+        newnblikes[post.id] = nbc;
+      }
+      setnblikes(newnblikes);
+    }
+    getnblikes();
+  }, [posts]);
+  async function Nbdeslikes(id){
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/NomreDeLikeEtDislike/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ idPost: id }),
+      });
+      const data = await response.json();
+     
+      return(data.NbDL)
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    async function getnbdeslikes() {
+      const newnbdeslikes = {};
+      for (const post of posts) {
+        const nbc = await Nbdeslikes(post.id);
+        newnbdeslikes[post.id] = nbc;
+      }
+      setnbdeslikes(newnbdeslikes);
+    }
+    getnbdeslikes();
+  }, [posts]);
+
+  async function addelike(idp)
+  {  const updatednblikes = { ...nblikes, [idp]: nblikes[idp] +1};
+  setnblikes(updatednblikes);  
+    let data=new FormData()
+      data.append("idcit",user.id)
+      data.append("idPost",idp)
+      data.append( "isLike",true)
+
+      await axios.post(`http://127.0.0.1:8000/api/reaction/`,data,
+      { headers:{ 'Content-Type': 'multpart/form-data'}}
+      ).then(resp=>{console.log(resp)
+        }).catch(err=>console.log(err))
+         
+   }
+   function Deletelike(idp){
     
+    axios.delete(`http://127.0.0.1:8000/api/reaction/${idp}/`)
+    .then(() => {
+      const updatednblikes = { ...nblikes, [idp]: nblikes[idp] -1};
+    setnblikes(updatednblikes); 
+    }).catch(err => {
+      console.error(err);
+    });
+   }
  
 
   return (
@@ -355,8 +445,21 @@ function PostsCy() {
       }
       
     </div>
+    <div className='trait'></div>
     <div className="info">
-      
+      <div className='reaction'>
+        <div className='likes'>
+        {likedup&&(<ThumbUpOffAltIcon onClick={()=>{setlikedup(!likedup);setlikeddown(true);addelike(post.id)}}/>)}
+        {!likedup&&(<ThumbUpIcon onClick={()=>{setlikedup(!likedup);Deletelike(post.id)}}/>)}
+        <span>{nblikes[post.id]}</span>
+        </div>
+        <div className='deslikes'>
+        {likeddown&&(<ThumbDownOffAltIcon onClick={()=>{setlikeddown(!likeddown);setlikedup(true)}}/>)}
+       { !likeddown&&(<ThumbDownIcon onClick={()=>setlikeddown(!likeddown)}/>)}
+        <span>{nbdeslikes[post.id]}</span>
+        </div>
+
+      </div>
      
         <TextsmsOutlinedIcon  onClick={() => {
   const currentValue = bc[post.id];
