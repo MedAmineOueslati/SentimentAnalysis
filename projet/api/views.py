@@ -5,52 +5,79 @@ from rest_framework.decorators import api_view
 from rest_framework import viewsets
 
 
-from .serializers import ArticleSerializer, CommentSerializer, ExpertCommentSerializer, reactionSerializer
-from .serializers import ExpertSerializer, PostSerializer, PostSuppSerializer, PostVerifieSerializer, UserAccountSerializer
+from .serializers import (
+    ArticleSerializer,
+    CommentSerializer,
+    ExpertCommentSerializer,
+    reactionSerializer,
+)
+from .serializers import (
+    ExpertSerializer,
+    PostSerializer,
+    PostSuppSerializer,
+    PostVerifieSerializer,
+    UserAccountSerializer,
+)
 from .forms import SignupForm
 
-from .models import Comment, ExpertComment, PostSupp, PostVerifie, UserAccount, Article, reaction
+from .models import (
+    Comment,
+    ExpertComment,
+    PostSupp,
+    PostVerifie,
+    UserAccount,
+    Article,
+    reaction,
+)
 from .models import Post, Expert
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def getRoutes(request):
     routes = [
-        '/api/signup',
-        '/api/login',
-        '/api/posts',
-        '/api/articles',
-        '/api/Comments',
-        '/api/ExpertComments',
-        '/api/PostVerifie',
-        '/api/PostSupp',
+        "/api/signup",
+        "/api/login",
+        "/api/posts",
+        "/api/articles",
+        "/api/Comments",
+        "/api/ExpertComments",
+        "/api/PostVerifie",
+        "/api/PostSupp",
     ]
 
     return Response(routes)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def Signup(request):
     form = SignupForm(request.data)
     if form.is_valid():
-        first_name = form.cleaned_data.get('first_name')
-        last_name = form.cleaned_data.get('last_name')
-        email = form.cleaned_data.get('email')
-        Sexe = form.cleaned_data.get('Sexe')
-        password = form.cleaned_data.get('password')
-        DateDeNaissance = form.cleaned_data.get('DateDeNaissance')
-        user = UserAccount.objects.create_user(first_name=first_name, last_name=last_name,
-                                               email=email, password=password, DateDeNaissance=DateDeNaissance, Sexe=Sexe)
-        return Response(UserAccountSerializer(user).data, status=status.HTTP_201_CREATED)
+        first_name = form.cleaned_data.get("first_name")
+        last_name = form.cleaned_data.get("last_name")
+        email = form.cleaned_data.get("email")
+        Sexe = form.cleaned_data.get("Sexe")
+        password = form.cleaned_data.get("password")
+        DateDeNaissance = form.cleaned_data.get("DateDeNaissance")
+        user = UserAccount.objects.create_user(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=password,
+            DateDeNaissance=DateDeNaissance,
+            Sexe=Sexe,
+        )
+        return Response(
+            UserAccountSerializer(user).data, status=status.HTTP_201_CREATED
+        )
     else:
         return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def Login(request):
     try:
         expert = Expert.objects.get(email=request.data.get("email"))
-        if (not expert.check_password(request.data.get("password"))):
+        if not expert.check_password(request.data.get("password")):
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
             data = ExpertSerializer(expert).data
@@ -59,7 +86,7 @@ def Login(request):
     except Expert.DoesNotExist:
         try:
             user = UserAccount.objects.get(email=request.data.get("email"))
-            if (not user.check_password(request.data.get("password"))):
+            if not user.check_password(request.data.get("password")):
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
             else:
                 data = UserAccountSerializer(user).data
@@ -69,7 +96,7 @@ def Login(request):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def getUserFullName(request):
     try:
         post = Post.objects.get(id=request.data.get("id"))
@@ -79,7 +106,7 @@ def getUserFullName(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def getUserFullNameVer(request):
     try:
         post = PostVerifie.objects.get(id=request.data.get("id"))
@@ -89,7 +116,7 @@ def getUserFullNameVer(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def getExpertFullName(request):
     try:
         comment = ExpertComment.objects.get(id=request.data.get("id"))
@@ -99,7 +126,7 @@ def getExpertFullName(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def getCommenterFullName(request):
     try:
         comment = Comment.objects.get(id=request.data.get("id"))
@@ -109,29 +136,29 @@ def getCommenterFullName(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def NombreDeCommentaire(request):
     try:
         NbComEx = ExpertComment.objects.filter(
-            idPost=request.data.get("idPost")).count()
+            idPost=request.data.get("idPost")
+        ).count()
     except ExpertComment.DoesNotExist:
         NbComEx = 0
     try:
-        NbComCy = Comment.objects.filter(
-            idPost=request.data.get("idPost")).count()
+        NbComCy = Comment.objects.filter(idPost=request.data.get("idPost")).count()
     except Comment.DoesNotExist:
         NbComCy = 0
 
     return Response({"nb": NbComEx + NbComCy}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(["GET"])
 def getNomreDePostAverf(request):
     NbP = Post.objects.all().count()
     return Response({"Nb": NbP}, status=status.HTTP_200_OK)
 
 
-@api_view(['POST'])
+@api_view(["POST"])
 def getNomreDeLikeEtDislike(request):
     queryset = reaction.objects.filter(idPost=request.data.get("idPost"))
     nbL = queryset.filter(isLike=True).count()
@@ -139,15 +166,22 @@ def getNomreDeLikeEtDislike(request):
     return Response({"NbL": nbL, "NbDL": nbDL}, status=status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(["POST"])
 def getisReacted(request):
     try:
-        react = reaction.objects.filter(idcit=request.data.get(
-            "idcit")).get(idPost=request.data.get("idPost"))
-        if (react.isLike):
-            return Response({"reaction": 1}, status=status.HTTP_200_OK)
+        react = reaction.objects.filter(idcit=request.data.get("idcit")).get(
+            idPost=request.data.get("idPost")
+        )
+        if react.isLike:
+            return Response(
+                {"reaction": 1, "id": reactionSerializer(react).data["id"]},
+                status=status.HTTP_200_OK,
+            )
         else:
-            return Response({"reaction": -1}, status=status.HTTP_200_OK)
+            return Response(
+                {"reaction": -1, "id": reactionSerializer(react).data["id"]},
+                status=status.HTTP_200_OK,
+            )
     except reaction.DoesNotExist:
         return Response({"reaction": 0}, status=status.HTTP_200_OK)
 
@@ -166,7 +200,7 @@ class commentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        queryset = Comment.objects.filter(idPost=self.kwargs['idPost'])
+        queryset = Comment.objects.filter(idPost=self.kwargs["idPost"])
         return queryset
 
 
@@ -174,7 +208,7 @@ class expertcommentViewSet(viewsets.ModelViewSet):
     serializer_class = ExpertCommentSerializer
 
     def get_queryset(self):
-        queryset = ExpertComment.objects.filter(idPost=self.kwargs['idPost'])
+        queryset = ExpertComment.objects.filter(idPost=self.kwargs["idPost"])
         return queryset
 
 

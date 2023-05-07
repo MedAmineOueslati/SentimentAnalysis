@@ -56,4 +56,4 @@ class PostSuppSerializer(serializers.ModelSerializer):
 class reactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = reaction
-        fields = ("idcit", "idPost", "isLike",)
+        fields = ("idcit", "idPost", "isLike", "id")
