@@ -608,26 +608,7 @@ const data = await response.json();
     <h4>{expname[ecomment.id]}</h4>
     <CheckCircleIcon htmlColor='#2196F3'/></div>
     
-    <div className="dropdown">
-    {user.isExpert&&(<MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbce = { ...bce, [ecomment.id]: !bce[ecomment.id] };
-  setbce(updatedbce);}}/>)}
-    {bce[ecomment.id] && (
-          <ul className="dropdown-menu">
-            <li onClick={()=> PutECommntSentiment(ecomment,1)}>
-            <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
-             <span>Positive</span>
-            </li>
-            <li onClick={()=> PutECommntSentiment(ecomment,0)}>
-            <SentimentNeutralIcon   htmlColor='#FFD54F'/>
-             <span>Neutre</span>
-            </li>
-            <li onClick={()=> PutECommntSentiment(ecomment,-1)}>
-            <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
-              <span>Negative</span>
-            </li>
-          </ul>
-        )}
-        </div>
+    
     </div>
     <p>{ecomment.description}</p>
     </div>))}
@@ -654,18 +635,7 @@ const data = await response.json();
     {bcc[comment.id] && (
        
           <ul className="dropdown-menu">
-            <li onClick={()=> PutCommntSentiment(comment,1)}>
-            <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
-             <span>Positive</span>
-            </li>
-            <li onClick={()=> PutCommntSentiment(comment,0)}>
-            <SentimentNeutralIcon   htmlColor='#FFD54F'/>
-             <span>Neutre</span>
-            </li>
-            <li onClick={()=> PutCommntSentiment(comment,-1)}>
-            <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
-              <span>Negative</span>
-            </li>
+            
             <li  onClick={()=> DeleteCommnt(comment)}>
             <ClearIcon htmlColor='red'/>
             <span>Supprimer</span> 

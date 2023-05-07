@@ -175,18 +175,7 @@ function Posts() {
           
         {bv[post.id] && (
           <ul className="dropdown-menu">
-            <li onClick={()=> verifPost(post.id,1)}>
-            <AddCircleOutlineIcon  htmlColor='#9CCC65'/>
-             <span>Positive</span>
-            </li>
-            <li onClick={()=> verifPost(post.id,0)}>
-            <SentimentNeutralIcon   htmlColor='#FFD54F'/>
-             <span>Neutre</span>
-            </li>
-            <li onClick={()=> verifPost(post.id,-1)}>
-            <RemoveCircleOutlineIcon  htmlColor='#1E88E5'/>
-              <span>Negative</span>
-            </li>
+            
             <li   onClick={()=> deletepost(post)}>
             <ClearIcon htmlColor='red'/>
             <span>Supprimer</span> 
