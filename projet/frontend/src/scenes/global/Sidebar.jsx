@@ -51,7 +51,7 @@ const Sidebar = () => {
   const [selected, setSelected] = useState("Dashboard");
   const [nb,setnb]=useState(0);
   const [col,setcol]=useState("black");
-  let {user} = useContext(AuthContext)
+  let {user, logoutUser} = useContext(AuthContext)
   
 
   async function Nbnotif() {
@@ -165,7 +165,7 @@ const Sidebar = () => {
               Pages
             </Typography>
             
-            {!user.isExpert&&(<Item
+            {user && !user.isExpert&&(<Item
               title="Calendar"
               to="/calendar"
               icon={<CalendarTodayOutlinedIcon />}
@@ -180,7 +180,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            {user.isExpert&&(<Item
+            {user && user.isExpert&&(<Item
               title={<span className="item-title" style={{ color:col }}>{`Notification  ${nb}`}</span>}
               htmlcolor='red'
               to="/App1"
@@ -240,20 +240,31 @@ const Sidebar = () => {
             >
               Personal
             </Typography>
+           { user ? (
           <Item
+              title="Logout"
+              icon={<LoginOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+              onClick={logoutUser}
+            />) : (
+              <Item
               title="LogIn"
               to="/login"
               icon={<LoginOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
+            )
+           }
+           {user ? (<Item
               title="Info"
               to="/profil"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            />): <></>}
+
           </Box>
         </Menu>
       </ProSidebar>

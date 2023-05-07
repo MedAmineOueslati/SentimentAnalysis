@@ -187,12 +187,12 @@ def getisReacted(request):
 
 
 class postViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+    queryset = Post.objects.all().order_by("id").reverse()
     serializer_class = PostSerializer
 
 
 class articleViewSet(viewsets.ModelViewSet):
-    queryset = Article.objects.all()
+    queryset = Article.objects.all().order_by("id").reverse()
     serializer_class = ArticleSerializer
 
 
@@ -201,7 +201,7 @@ class commentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = Comment.objects.filter(idPost=self.kwargs["idPost"])
-        return queryset
+        return queryset.order_by("id").reverse()
 
 
 class expertcommentViewSet(viewsets.ModelViewSet):
@@ -209,29 +209,29 @@ class expertcommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = ExpertComment.objects.filter(idPost=self.kwargs["idPost"])
-        return queryset
+        return queryset.order_by("id").reverse()
 
 
 class PostVerifieViewSet(viewsets.ModelViewSet):
-    queryset = PostVerifie.objects.all()
+    queryset = PostVerifie.objects.all().order_by("id").reverse()
     serializer_class = PostVerifieSerializer
 
 
 class PostSuppViewSet(viewsets.ModelViewSet):
-    queryset = PostSupp.objects.all()
+    queryset = PostSupp.objects.all().order_by("id").reverse()
     serializer_class = PostSuppSerializer
 
 
 class commentDetail(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by("id").reverse()
     serializer_class = CommentSerializer
 
 
 class ExpertcommentDetail(viewsets.ModelViewSet):
-    queryset = ExpertComment.objects.all()
+    queryset = ExpertComment.objects.all().order_by("id").reverse()
     serializer_class = ExpertCommentSerializer
 
 
 class reactionDetail(viewsets.ModelViewSet):
-    queryset = reaction.objects.all()
+    queryset = reaction.objects.all().order_by("id").reverse()
     serializer_class = reactionSerializer

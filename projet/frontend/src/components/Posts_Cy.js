@@ -491,7 +491,8 @@ const data = await response.json();
 
 
    <div>
-     <Share posts={posts} updatepost={updatepost}/>
+    
+    {user && <Share posts={posts} updatepost={updatepost}/> }
      <InfiniteScroll
   dataLength={posts.length} 
   next={getdata}
@@ -650,7 +651,7 @@ const data = await response.json();
     </div>))}
     </InfiniteScroll>
    
-    <div className="commentsform">
+    {user && <div className="commentsform">
     <input type="text" placeholder='Add a new comment' value={cdescription} onChange={(e)=>setcdescription(e.target.value)} ></input>
     <input type="submit" value="Add " onClick={()=>{
       if (user.isExpert)
@@ -659,7 +660,7 @@ const data = await response.json();
       {addcomment(post.id)}
       setcdescription("")
     }}></input>
-    </div>
+    </div>}
     </div>)}
    
     

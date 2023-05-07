@@ -62,7 +62,7 @@ export const AuthProvider = ({children}) => {
     let logoutUser = () => {
         setUser(null)
         localStorage.removeItem('User')
-        history('/login')
+        history('/')
     }
 
 
