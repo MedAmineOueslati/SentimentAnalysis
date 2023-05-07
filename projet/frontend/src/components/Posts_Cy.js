@@ -41,6 +41,8 @@ function PostsCy() {
   const [likeddown,setlikeddown]=useState(true);
   const [nblikes, setnblikes] = useState({});
   const [nbdeslikes, setnbdeslikes] = useState({});
+  const [reaction, setreaction] = useState({});
+  const [idl, setidl] = useState('');
   
   let {user} = useContext(AuthContext)
 
@@ -390,17 +392,100 @@ function PostsCy() {
         }).catch(err=>console.log(err))
          
    }
-   function Deletelike(idp){
-    
-    axios.delete(`http://127.0.0.1:8000/api/reaction/${idp}/`)
+   async function addedeslike(idp)
+  {  const updatednbdeslikes = { ...nbdeslikes, [idp]: nbdeslikes[idp] +1};
+  setnbdeslikes(updatednbdeslikes);  
+    let data=new FormData()
+      data.append("idcit",user.id)
+      data.append("idPost",idp)
+      data.append( "isLike",false)
+
+      await axios.post(`http://127.0.0.1:8000/api/reaction/`,data,
+      { headers:{ 'Content-Type': 'multpart/form-data'}}
+      ).then(resp=>{console.log(resp)
+        }).catch(err=>console.log(err))
+         
+   }
+   async function idlike(idp){
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
+      });
+      const data = await response.json();
+      
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function Deletelike(idp){
+    const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
+});
+const data = await response.json();
+    axios.delete(`http://127.0.0.1:8000/api/reaction/${data.id}/`)
     .then(() => {
       const updatednblikes = { ...nblikes, [idp]: nblikes[idp] -1};
     setnblikes(updatednblikes); 
     }).catch(err => {
-      console.error(err);
+      console.error( idlike(idp));
     });
    }
- 
+   async function Deletedeslike(idp){
+    const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
+});
+const data = await response.json();
+    axios.delete(`http://127.0.0.1:8000/api/reaction/${data.id}/`)
+    .then(() => {
+      const updatednbdeslikes = { ...nbdeslikes, [idp]: nbdeslikes[idp] -1};
+      setnbdeslikes(updatednbdeslikes); 
+    }).catch(err => {
+      console.error( idlike(idp));
+    });
+   }
+   async function isReacted(id){
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ "idPost":id,
+        "idcit":1 }),
+      });
+      const data = await response.json();
+      console.log(data);
+      return(data.reaction)
+      
+    } catch (error) {
+      console.log(id);
+    }
+  }
+  useEffect(() => {
+    async function getreaction() {
+      const newreaction = {};
+      for (const post of posts) {
+        const nbc = await isReacted(post.id);
+        newreaction[post.id] = nbc;
+      }
+      setreaction(newreaction);
+    }
+    getreaction();
+  }, [posts]);
 
   return (
 
@@ -449,13 +534,32 @@ function PostsCy() {
     <div className="info">
       <div className='reaction'>
         <div className='likes'>
-        {likedup&&(<ThumbUpOffAltIcon onClick={()=>{setlikedup(!likedup);setlikeddown(true);addelike(post.id)}}/>)}
-        {!likedup&&(<ThumbUpIcon onClick={()=>{setlikedup(!likedup);Deletelike(post.id)}}/>)}
+        {reaction[post.id]!=1&&(<ThumbUpOffAltIcon onClick={()=>{
+          if(reaction[post.id]==0)
+              addelike(post.id)
+          else
+          { 
+            Deletedeslike(post.id)
+            addelike(post.id)
+          }
+    const updatedreaction = { ...reaction, [post.id]:1};
+    setreaction(updatedreaction); }}/>)}
+        {reaction[post.id]==1&&(<ThumbUpIcon onClick={()=>{Deletelike(post.id);const updatedreaction = { ...reaction, [post.id]:0};
+    setreaction(updatedreaction);}}/>)}
         <span>{nblikes[post.id]}</span>
         </div>
         <div className='deslikes'>
-        {likeddown&&(<ThumbDownOffAltIcon onClick={()=>{setlikeddown(!likeddown);setlikedup(true)}}/>)}
-       { !likeddown&&(<ThumbDownIcon onClick={()=>setlikeddown(!likeddown)}/>)}
+        {reaction[post.id]!=-1&&(<ThumbDownOffAltIcon onClick={()=>{if(reaction[post.id]==0)
+              addedeslike(post.id)
+          else
+          { 
+            Deletelike(post.id)
+            addedeslike(post.id)
+          }
+    const updatedreaction = { ...reaction, [post.id]:-1};
+    setreaction(updatedreaction);}}/>)}
+       { reaction[post.id]==-1&&(<ThumbDownIcon onClick={()=>{Deletedeslike(post.id);const updatedreaction = { ...reaction, [post.id]:0};
+    setreaction(updatedreaction);}}/>)}
         <span>{nbdeslikes[post.id]}</span>
         </div>
 
