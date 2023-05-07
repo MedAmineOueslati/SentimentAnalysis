@@ -53,7 +53,9 @@ const Sidebar = () => {
   const [col,setcol]=useState("black");
   let {user, logoutUser} = useContext(AuthContext)
   
-
+function handlelogout(){
+  logoutUser()
+}
   async function Nbnotif() {
     try {
       const response = await fetch("http://127.0.0.1:8000/api/NomreDePostAverf/", {
@@ -81,7 +83,7 @@ const Sidebar = () => {
      else
      setcol('black')
     },[nb])
-  console.log(nb)
+  
   return (
     
     <Box height= "100vh"
@@ -246,7 +248,7 @@ const Sidebar = () => {
               icon={<LoginOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-              onClick={logoutUser}
+              onClick={handlelogout}
             />) : (
               <Item
               title="LogIn"
@@ -257,13 +259,13 @@ const Sidebar = () => {
             />
             )
            }
-           {user ? (<Item
+           {user && (<Item
               title="Info"
               to="/profil"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />): <></>}
+            />)}
 
           </Box>
         </Menu>

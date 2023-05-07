@@ -124,7 +124,7 @@ function Search() {
     
     <div className="Search">
         <div className='bton'>
-        { user.isExpert&& (<Button
+        {user && user.isExpert&& (<Button
 variant="contained"
 color="primary"
 startIcon={<AddIcon />}
@@ -169,7 +169,7 @@ Add article
             setdescription(item.description)
             updatearticle(item)}}
             >Learn More</Button>
-        {user.isExpert &&(<Link to={`/Expertform?data0=${encodeURIComponent(item.proprietaire)}&data1=${encodeURIComponent(item.title)}&data2=${encodeURIComponent(item.description)}&data3=${encodeURIComponent(item.im)}
+        {user && user.isExpert &&(<Link to={`/Expertform?data0=${encodeURIComponent(item.proprietaire)}&data1=${encodeURIComponent(item.title)}&data2=${encodeURIComponent(item.description)}&data3=${encodeURIComponent(item.im)}
         &data4=${encodeURIComponent(item.id)}`}><EditIcon htmlColor='grey'/></Link>)}
       </CardActions>
     </Card>

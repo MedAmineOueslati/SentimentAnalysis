@@ -631,7 +631,7 @@ const data = await response.json();
 
     <h4>{cytname[comment.id]}</h4></div>
     <div className="dropdown">
-    {user.isExpert&&(<MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
+    {user && user.isExpert&&(<MoreVertIcon htmlColor='#424242' onClick={ ()=>{const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
   setbcc(updatedbcc);}}/>)}
     {bcc[comment.id] && (
        
