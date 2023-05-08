@@ -492,7 +492,7 @@ const data = await response.json();
 
    <div>
     
-    {user && <Share posts={posts} updatepost={updatepost}/> }
+    {user && !user.isExpert && <Share posts={posts} updatepost={updatepost}/> }
      <InfiniteScroll
   dataLength={posts.length} 
   next={getdata}
