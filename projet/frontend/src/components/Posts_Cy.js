@@ -46,169 +46,27 @@ function PostsCy() {
   
   let {user} = useContext(AuthContext)
 
-  useEffect(() => {
-    async function getbce() {
-      const newbce = {};
-      for (const ecomment of ecomments) {
-        newbce[ecomment.id] = false;
-      }
-      setbce(newbce);
-    }
-    getbce();
-  }, [ecomments]);
-  useEffect(() => {
-    async function getbcc() {
-      const newbcc = {};
-      for (const comment of comments) {
-        newbcc[comment.id] = false;
-      }
-      setbcc(newbcc);
-    }
-    getbcc();
-  }, [ecomments]);
-
-  useEffect(() => {
-    async function getbc() {
-      const newbc = {};
-      for (const post of posts) {
-        newbc[post.id] = post.bc;
-      }
-      setbc(newbc);
-    }
-    getbc();
-  }, [posts]);
   
-  async function NbCommentaire(id){
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ idPost: id }),
-      });
-      const data = await response.json();
-     
-      return(data.nb)
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    async function getnbcomments() {
-      const newnbcomments = {};
-      for (const post of posts) {
-        const nbc = await NbCommentaire(post.id);
-        newnbcomments[post.id] = nbc;
-      }
-      setnbcomments(newnbcomments);
-    }
-    getnbcomments();
-  }, [posts]);
-
-  
-
-  
-    async function NomDuPro(id) {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/UserFullNameVer/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: id }),
-        });
-        const data = await response.json();
-       
-        return(data.nom)
-        
-      } catch (error) {
-        console.log(error);
-      }
-      
-    }
-    useEffect(() => {
-      async function getAuthors() {
-        const newAuthors = {};
-        for (const post of posts) {
-          const authorName = await NomDuPro(post.id);
-          newAuthors[post.id] = authorName;
-        }
-        setAuthors(newAuthors);
-      }
-      getAuthors();
-    }, [posts]);
-    async function NomDucyt(id1) {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/CommenterFullName/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id:id1 }),
-        });
-        const data = await response.json();
-       
-        return(data.nom)
-        
-      } catch (error) {
-        console.log(error);
-      }
-      
-    }
-    useEffect(() => {
-      async function getcytname() {
-        const newcytname = {};
-        for (const comment of comments) {
-          const cytName = await NomDucyt(comment.id);
-          newcytname[comment.id] = cytName;
-        }
-        setcytname(newcytname);
-      }
-      getcytname();
-    }, [comments]);
-
-    async function NomDuexp(id1) {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/ExpertFullName/", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id:id1 }),
-        });
-        const data = await response.json();
-       
-        return(data.nom)
-        
-      } catch (error) {
-        console.log(error);
-      }
-      
-    }
-    useEffect(() => {
-      async function getexpname() {
-        const newexpname = {};
-        for (const comment of ecomments) {
-          const expName = await NomDuexp(comment.id);
-          newexpname[comment.id] = expName;
-        }
-        setexpname(newexpname);
-      }
-      getexpname();
-    }, [ecomments]);
-    
-
-  
-  
+/************************************postscode**************************************** */
   function updatepost(newstate)
   {
     setposts(newstate)
   }
-
-
-   function getdata()
+  function intialgetdata()
+  {
+    fetch( 'http://127.0.0.1:8000/api/PostVerifie/',{
+       'method':'GET',
+       headers:{'Content-Type': 'application/json'}
+     })
+     .then(resp=>resp.json())
+     .then(resp=>{setposts(resp.results)
+      setnext(resp.next)
+     sethasmore(!!resp.next)
+   })
+     .catch(error=>console.log("ddd"))
+     
+  }
+  function getdata()
   {
     fetch( next,{
        'method':'GET',
@@ -225,9 +83,209 @@ function PostsCy() {
 
   useEffect(()=>
    {
-    getdata()
+    intialgetdata()
    },[])
-   function getcomments()
+
+   async function NomDuPro(id) {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/UserFullNameVer/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      });
+      const data = await response.json();
+     
+      return(data.nom)
+      
+    } catch (error) {
+      console.log(error);
+    }
+    
+  }
+  useEffect(() => {
+    async function getAuthors() {
+      const newAuthors = {};
+      for (const post of posts) {
+        const authorName = await NomDuPro(post.id);
+        newAuthors[post.id] = authorName;
+      }
+      setAuthors(newAuthors);
+    }
+    getAuthors();
+  }, [posts]);
+
+/************************************likescode**************************************** */
+async function Nblikes(id){
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/NomreDeLikeEtDislike/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idPost: id }),
+    });
+    const data = await response.json();
+   
+    return(data.NbL)
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+useEffect(() => {
+  async function getnblikes() {
+    const newnblikes = {};
+    for (const post of posts) {
+      const nbc = await Nblikes(post.id);
+      newnblikes[post.id] = nbc;
+    }
+    setnblikes(newnblikes);
+  }
+  getnblikes();
+}, [posts]);
+async function Nbdeslikes(id){
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/NomreDeLikeEtDislike/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idPost: id }),
+    });
+    const data = await response.json();
+   
+    return(data.NbDL)
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+useEffect(() => {
+  async function getnbdeslikes() {
+    const newnbdeslikes = {};
+    for (const post of posts) {
+      const nbc = await Nbdeslikes(post.id);
+      newnbdeslikes[post.id] = nbc;
+    }
+    setnbdeslikes(newnbdeslikes);
+  }
+  getnbdeslikes();
+}, [posts]);
+
+async function addelike(idp)
+{  const updatednblikes = { ...nblikes, [idp]: nblikes[idp] +1};
+setnblikes(updatednblikes);  
+  let data=new FormData()
+    data.append("idcit",user.id)
+    data.append("idPost",idp)
+    data.append( "isLike",true)
+
+    await axios.post(`http://127.0.0.1:8000/api/reaction/`,data,
+    { headers:{ 'Content-Type': 'multpart/form-data'}}
+    ).then(resp=>{console.log(resp)
+      }).catch(err=>console.log(err))
+       
+ }
+ async function addedeslike(idp)
+{  const updatednbdeslikes = { ...nbdeslikes, [idp]: nbdeslikes[idp] +1};
+setnbdeslikes(updatednbdeslikes);  
+  let data=new FormData()
+    data.append("idcit",user.id)
+    data.append("idPost",idp)
+    data.append( "isLike",false)
+
+    await axios.post(`http://127.0.0.1:8000/api/reaction/`,data,
+    { headers:{ 'Content-Type': 'multpart/form-data'}}
+    ).then(resp=>{console.log(resp)
+      }).catch(err=>console.log(err))
+       
+ }
+ async function idlike(idp){
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
+    });
+    const data = await response.json();
+    
+    
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
+async function Deletelike(idp){
+  const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+method: "POST",
+headers: {
+  "Content-Type": "application/json",
+},
+body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
+});
+const data = await response.json();
+  axios.delete(`http://127.0.0.1:8000/api/reaction/${data.id}/`)
+  .then(() => {
+    const updatednblikes = { ...nblikes, [idp]: nblikes[idp] -1};
+  setnblikes(updatednblikes); 
+  }).catch(err => {
+    console.error( idlike(idp));
+  });
+ }
+ async function Deletedeslike(idp){
+  const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+method: "POST",
+headers: {
+  "Content-Type": "application/json",
+},
+body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
+});
+const data = await response.json();
+  axios.delete(`http://127.0.0.1:8000/api/reaction/${data.id}/`)
+  .then(() => {
+    const updatednbdeslikes = { ...nbdeslikes, [idp]: nbdeslikes[idp] -1};
+    setnbdeslikes(updatednbdeslikes); 
+  }).catch(err => {
+    console.error( idlike(idp));
+  });
+ }
+ async function isReacted(id){
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ "idPost":id,
+      "idcit":1 }),
+    });
+    const data = await response.json();
+    console.log(data);
+    return(data.reaction)
+    
+  } catch (error) {
+    console.log(id);
+  }
+}
+useEffect(() => {
+  async function getreaction() {
+    const newreaction = {};
+    for (const post of posts) {
+      const nbc = await isReacted(post.id);
+      newreaction[post.id] = nbc;
+    }
+    setreaction(newreaction);
+  }
+  getreaction();
+}, [posts]);
+
+
+/************************************commentsscode**************************************** */
+function getcomments()
    {
      fetch( nextc,{
         'method':'GET',
@@ -297,16 +355,7 @@ function PostsCy() {
           
          
      }
-     async function PutECommntSentiment(ecomment,sentiment){
-      const updatedbce = { ...bce, [ecomment.id]: !bce[ecomment.id] };
-  setbce(updatedbce);
-      await axios.patch(`http://127.0.0.1:8000/api/ExpertcommentDetail/${ecomment.id}/`, { "sentiment": sentiment });
-     }
-     async function PutCommntSentiment(comment,sentiment){
-      const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
-  setbcc(updatedbcc);
-      await axios.patch(`http://127.0.0.1:8000/api/commentDetail/${comment.id}/`, { "sentiment": sentiment });
-     }
+   
 
      function DeleteCommnt(comment){
       const updatedbcc = { ...bcc, [comment.id]: !bcc[comment.id] };
@@ -320,173 +369,133 @@ function PostsCy() {
         console.error(err);
       });
      }
-
-    async function Nblikes(id){
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/NomreDeLikeEtDislike/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ idPost: id }),
-      });
-      const data = await response.json();
-     
-      return(data.NbL)
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    async function getnblikes() {
-      const newnblikes = {};
-      for (const post of posts) {
-        const nbc = await Nblikes(post.id);
-        newnblikes[post.id] = nbc;
+     useEffect(() => {
+      async function getbce() {
+        const newbce = {};
+        for (const ecomment of ecomments) {
+          newbce[ecomment.id] = false;
+        }
+        setbce(newbce);
       }
-      setnblikes(newnblikes);
-    }
-    getnblikes();
-  }, [posts]);
-  async function Nbdeslikes(id){
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/NomreDeLikeEtDislike/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ idPost: id }),
-      });
-      const data = await response.json();
-     
-      return(data.NbDL)
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  useEffect(() => {
-    async function getnbdeslikes() {
-      const newnbdeslikes = {};
-      for (const post of posts) {
-        const nbc = await Nbdeslikes(post.id);
-        newnbdeslikes[post.id] = nbc;
+      getbce();
+    }, [ecomments]);
+    useEffect(() => {
+      async function getbcc() {
+        const newbcc = {};
+        for (const comment of comments) {
+          newbcc[comment.id] = false;
+        }
+        setbcc(newbcc);
       }
-      setnbdeslikes(newnbdeslikes);
+      getbcc();
+    }, [ecomments]);
+  
+    useEffect(() => {
+      async function getbc() {
+        const newbc = {};
+        for (const post of posts) {
+          newbc[post.id] = post.bc;
+        }
+        setbc(newbc);
+      }
+      getbc();
+    }, [posts]);
+    
+    async function NbCommentaire(id){
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/NombreDeCommentaire/', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ idPost: id }),
+        });
+        const data = await response.json();
+       
+        return(data.nb)
+        
+      } catch (error) {
+        console.log(error);
+      }
     }
-    getnbdeslikes();
-  }, [posts]);
-
-  async function addelike(idp)
-  {  const updatednblikes = { ...nblikes, [idp]: nblikes[idp] +1};
-  setnblikes(updatednblikes);  
-    let data=new FormData()
-      data.append("idcit",user.id)
-      data.append("idPost",idp)
-      data.append( "isLike",true)
-
-      await axios.post(`http://127.0.0.1:8000/api/reaction/`,data,
-      { headers:{ 'Content-Type': 'multpart/form-data'}}
-      ).then(resp=>{console.log(resp)
-        }).catch(err=>console.log(err))
+    useEffect(() => {
+      async function getnbcomments() {
+        const newnbcomments = {};
+        for (const post of posts) {
+          const nbc = await NbCommentaire(post.id);
+          newnbcomments[post.id] = nbc;
+        }
+        setnbcomments(newnbcomments);
+      }
+      getnbcomments();
+    }, [posts]);
+  
+    
+  
+    
+      
+      async function NomDucyt(id1) {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/CommenterFullName/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id:id1 }),
+          });
+          const data = await response.json();
          
-   }
-   async function addedeslike(idp)
-  {  const updatednbdeslikes = { ...nbdeslikes, [idp]: nbdeslikes[idp] +1};
-  setnbdeslikes(updatednbdeslikes);  
-    let data=new FormData()
-      data.append("idcit",user.id)
-      data.append("idPost",idp)
-      data.append( "isLike",false)
-
-      await axios.post(`http://127.0.0.1:8000/api/reaction/`,data,
-      { headers:{ 'Content-Type': 'multpart/form-data'}}
-      ).then(resp=>{console.log(resp)
-        }).catch(err=>console.log(err))
-         
-   }
-   async function idlike(idp){
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
-      });
-      const data = await response.json();
-      
-      
-      
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  async function Deletelike(idp){
-    const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
-});
-const data = await response.json();
-    axios.delete(`http://127.0.0.1:8000/api/reaction/${data.id}/`)
-    .then(() => {
-      const updatednblikes = { ...nblikes, [idp]: nblikes[idp] -1};
-    setnblikes(updatednblikes); 
-    }).catch(err => {
-      console.error( idlike(idp));
-    });
-   }
-   async function Deletedeslike(idp){
-    const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({ "idPost":idp,"idcit":user.id }),
-});
-const data = await response.json();
-    axios.delete(`http://127.0.0.1:8000/api/reaction/${data.id}/`)
-    .then(() => {
-      const updatednbdeslikes = { ...nbdeslikes, [idp]: nbdeslikes[idp] -1};
-      setnbdeslikes(updatednbdeslikes); 
-    }).catch(err => {
-      console.error( idlike(idp));
-    });
-   }
-   async function isReacted(id){
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/isReacted/', {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ "idPost":id,
-        "idcit":1 }),
-      });
-      const data = await response.json();
-      console.log(data);
-      return(data.reaction)
-      
-    } catch (error) {
-      console.log(id);
-    }
-  }
-  useEffect(() => {
-    async function getreaction() {
-      const newreaction = {};
-      for (const post of posts) {
-        const nbc = await isReacted(post.id);
-        newreaction[post.id] = nbc;
+          return(data.nom)
+          
+        } catch (error) {
+          console.log(error);
+        }
+        
       }
-      setreaction(newreaction);
-    }
-    getreaction();
-  }, [posts]);
-
+      useEffect(() => {
+        async function getcytname() {
+          const newcytname = {};
+          for (const comment of comments) {
+            const cytName = await NomDucyt(comment.id);
+            newcytname[comment.id] = cytName;
+          }
+          setcytname(newcytname);
+        }
+        getcytname();
+      }, [comments]);
+  
+      async function NomDuexp(id1) {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/ExpertFullName/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id:id1 }),
+          });
+          const data = await response.json();
+         
+          return(data.nom)
+          
+        } catch (error) {
+          console.log(error);
+        }
+        
+      }
+      useEffect(() => {
+        async function getexpname() {
+          const newexpname = {};
+          for (const comment of ecomments) {
+            const expName = await NomDuexp(comment.id);
+            newexpname[comment.id] = expName;
+          }
+          setexpname(newexpname);
+        }
+        getexpname();
+      }, [ecomments]);
+      
+  /*************************************************************************************************************************************** 
+   * */  
   return (
 
 
@@ -526,7 +535,7 @@ const data = await response.json();
       }
       {
         post.vd&&(
-          <video src={post.vd} alt="" />
+          <video src={post.vd} alt="" controls />
         )
       }
       

@@ -1,3 +1,4 @@
+import "./Sidebar.css";
 import { useState,useContext,useEffect } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
@@ -243,13 +244,11 @@ function handlelogout(){
               Personal
             </Typography>
            { user ? (
-          <Item
-              title="Logout"
-              icon={<LoginOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              onClick={handlelogout}
-            />) : (
+            <div className="logout" onClick={handlelogout}>
+              <LoginOutlinedIcon />
+              <span>Logout</span>
+            </div>
+          ) : (
               <Item
               title="LogIn"
               to="/login"

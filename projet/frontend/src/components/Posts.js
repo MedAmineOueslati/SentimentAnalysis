@@ -11,6 +11,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import SentimentNeutralIcon from '@mui/icons-material/SentimentNeutral';
 import AuthContext from '../context/AuthContext'
+import VerifiedIcon from '@mui/icons-material/Verified';
 
 
 function Posts() {
@@ -116,6 +117,20 @@ function Posts() {
   {
     setUnvposts(newstate)
   }
+  function intialgetUnverifiedData()
+  {
+    fetch( 'http://127.0.0.1:8000/api/posts/',{
+       'method':'GET',
+       headers:{'Content-Type': 'application/json'}
+     })
+     .then(resp=>resp.json())
+     .then(resp=>{setUnvposts(resp.results)
+      setnextUnv(resp.next)
+     sethasmore(!!resp.next)
+   })
+     .catch(error=>console.log("ddd"))
+     
+  }
   
    function getUnverifiedData()
   {
@@ -134,7 +149,7 @@ function Posts() {
 
   useEffect(()=>
    {
-    getUnverifiedData()
+    intialgetUnverifiedData()
    },[])
 
   return (
@@ -175,10 +190,13 @@ function Posts() {
           
         {bv[post.id] && (
           <ul className="dropdown-menu">
-            
+            <li   onClick={()=>verifPost(post.id,0)}>
+            <VerifiedIcon htmlColor='blue'/>
+            <span>Verify</span> 
+            </li>
             <li   onClick={()=> deletepost(post)}>
             <ClearIcon htmlColor='red'/>
-            <span>Supprimer</span> 
+            <span>Supprimer</span>
             </li>
           </ul>
         )}
