@@ -540,8 +540,10 @@ function getcomments()
       }
       
     </div>
+    
     <div className='trait'></div>
     <div className="info">
+      {user &&
       <div className='reaction'>
         <div className='likes'>
         {reaction[post.id]!=1&&(<ThumbUpOffAltIcon onClick={()=>{
@@ -572,8 +574,7 @@ function getcomments()
     setreaction(updatedreaction);}}/>)}
         <span>{nbdeslikes[post.id]}</span>
         </div>
-
-      </div>
+      </div>}
      
         <TextsmsOutlinedIcon  onClick={() => {
   const currentValue = bc[post.id];
